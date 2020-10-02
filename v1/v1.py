@@ -56,6 +56,8 @@ class NVCCPlugin(Magics):
             flag = flag[:-2] + "'"
 
             args = ["nvprof", "--metrics", flag, file_path + ".out"]
+        
+        print(args)
 
         output = subprocess.check_output(args, stderr=subprocess.STDOUT)
         output = output.decode('utf8')
@@ -63,7 +65,6 @@ class NVCCPlugin(Magics):
     
     def run_nvprof_all_metrics(self, file_path):
         args = ["nvprof", "--metrics", "all", file_path + ".out"]
-        print(args)
         output = subprocess.check_output(args, stderr=subprocess.STDOUT)
         output = output.decode('utf8')
         helper.print_out(output)
