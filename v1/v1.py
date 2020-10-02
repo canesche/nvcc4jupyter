@@ -45,8 +45,18 @@ class NVCCPlugin(Magics):
         output = output.decode('utf8')
         helper.print_out(output)
     
-    def run_nvprof(self, file_path):
-        args = ["nvprof", file_path + ".out"]
+    def run_nvprof(self, file_path, flags):
+
+        if len(flags) == 0:
+            args = ["nvprof", file_path + ".out"]
+        else:
+            flag = "'"
+            for f in flags:
+                flag += f + ", "
+            flag = flag[:-2] + "'"
+
+            args = ["nvprof", "--metrics", flag, file_path + ".out"]
+
         output = subprocess.check_output(args, stderr=subprocess.STDOUT)
         output = output.decode('utf8')
         helper.print_out(output)
@@ -99,8 +109,8 @@ class NVCCPlugin(Magics):
         with open(file_path + ext, "w") as f:
             f.write(cell)
         try:
-            self.compile(file_path, args)
-            self.run_nvprof(file_path)
+            self.compile(file_path, [])
+            self.run_nvprof(file_path, args)
         except subprocess.CalledProcessError as e:
             helper.print_out(e.output.decode("utf8"))
     
