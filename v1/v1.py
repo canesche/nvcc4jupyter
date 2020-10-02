@@ -50,10 +50,10 @@ class NVCCPlugin(Magics):
         if len(flags) == 0:
             args = ["nvprof", file_path + ".out"]
         else:
-            flag = "'"
+            flag = "\""
             for f in flags:
                 flag += f + ", "
-            flag = flag[:-2] + "'"
+            flag = flag[:-2] + "\""
 
             args = ["nvprof", "--metrics", flag, file_path + ".out"]
         
