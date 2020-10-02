@@ -1,7 +1,7 @@
 from distutils.core import setup
 
 setup(
-    name='NVCCPlugin',
+    name='ColabPlugin',
     version='0.0.3',
     author='Andrei Nechaev, M. Canesche',
     author_email='lyfaradey@yahoo.com, michael.canesche@gmail.com',
