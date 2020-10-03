@@ -22,7 +22,7 @@ class VERILOGPlugin(Magics):
         self.argparser = helper.get_argparser()
     
     def permission(self):
-        args = ["chmod a+x -R nvcc4jupyter/verilog/"]
+        args = ["chmod", "a+x", "-R", "nvcc4jupyter/verilog/"]
 
         output = subprocess.check_output(args, stderr=subprocess.STDOUT)
         output = output.decode('utf8')
