@@ -20,7 +20,14 @@ class VERILOGPlugin(Magics):
     def __init__(self, shell):
         super(VERILOGPlugin, self).__init__(shell)
         self.argparser = helper.get_argparser()
+        permission()
     
+    def permission(self):
+        args = ["chmod a+x -R /content/nvcc4jupyter/verilog/"]
+
+        output = subprocess.check_output(args, stderr=subprocess.STDOUT)
+        output = output.decode('utf8')
+
     @staticmethod
     def compile(file_path, flags):
         args = [compiler, file_path + ext, "-o", file_path + ".out"]
