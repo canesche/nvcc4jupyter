@@ -20,6 +20,7 @@ class VERILOGPlugin(Magics):
     def __init__(self, shell):
         super(VERILOGPlugin, self).__init__(shell)
         self.argparser = helper.get_argparser()
+        self.permission()
     
     def permission(self):
         args = ["chmod", "a+x", "-R", "/content/nvcc4jupyter/verilog/"]
@@ -59,7 +60,6 @@ class VERILOGPlugin(Magics):
 
     @cell_magic
     def verilog(self, line, cell):
-        self.permission()
         args = line.split()
 
         with tempfile.TemporaryDirectory() as tmp_dir:
@@ -74,7 +74,6 @@ class VERILOGPlugin(Magics):
     
     @cell_magic
     def print_verilog(self, line, cell):
-        self.permission()
         args = line.split()
 
         file_path = os.path.join('/content/code')
