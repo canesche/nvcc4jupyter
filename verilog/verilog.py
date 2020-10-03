@@ -20,7 +20,7 @@ class VERILOGPlugin(Magics):
     def __init__(self, shell):
         super(VERILOGPlugin, self).__init__(shell)
         self.argparser = helper.get_argparser()
-        permission()
+        self.permission()
     
     def permission(self):
         args = ["chmod a+x -R /content/nvcc4jupyter/verilog/"]
