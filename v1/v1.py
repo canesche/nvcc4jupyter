@@ -51,8 +51,7 @@ class NVCCPlugin(Magics):
         else:
             flag = ""
             for f in flags:
-                flag += f + ", "
-            flag = flag[:-2]
+                flag += "-m " + f + " "
 
             args = ["sh", "/content/nvcc4jupyter/v1/metric.sh", flag]
         

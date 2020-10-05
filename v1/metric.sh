@@ -1,1 +1,1 @@
-nvprof --metrics "$1" /content/code.out
+nvprof $1 /content/code.out
