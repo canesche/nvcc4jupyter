@@ -9,7 +9,6 @@ from common import helper
 
 compiler = '/usr/local/cuda/bin/nvcc'
 ext = '.cu'
-
  
 @magics_class
 class NVCCPlugin(Magics):
@@ -55,9 +54,9 @@ class NVCCPlugin(Magics):
                 flag += f + ", "
             flag = flag[:-2] + "\""
 
-            args = ["nvprof", "--metrics", flag, file_path + ".out"]
+            args = ["sh", "./metric.sh"]
         
-        print(args)
+            print(args)
 
         output = subprocess.check_output(args, stderr=subprocess.STDOUT)
         output = output.decode('utf8')
