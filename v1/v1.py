@@ -49,12 +49,12 @@ class NVCCPlugin(Magics):
         if len(flags) == 0:
             args = ["nvprof", file_path + ".out"]
         else:
-            flag = "\""
+            flag = ""
             for f in flags:
                 flag += f + ", "
-            flag = flag[:-2] + "\""
+            flag = flag[:-2]
 
-            args = ["sh", "/content/nvcc4jupyter/v1/metric.sh"]
+            args = ["sh", "/content/nvcc4jupyter/v1/metric.sh", flag]
         
             print(args)
 
