@@ -54,8 +54,6 @@ class NVCCPlugin(Magics):
                 flag += " -m " + f
 
             args = ["sh", "/content/nvcc4jupyter/v1/metric.sh", flag]
-        
-            print(args)
 
         output = subprocess.check_output(args, stderr=subprocess.STDOUT)
         output = output.decode('utf8')
