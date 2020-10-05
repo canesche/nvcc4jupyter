@@ -54,7 +54,7 @@ class NVCCPlugin(Magics):
                 flag += f + ", "
             flag = flag[:-2] + "\""
 
-            args = ["sh", "./metric.sh"]
+            args = ["sh", "./content/nvcc4jupyter/v1/metric.sh"]
         
             print(args)
 
