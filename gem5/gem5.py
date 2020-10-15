@@ -18,12 +18,13 @@ class Gem5Plugin(Magics):
         self.updateInstall()
     
     def updateInstall(self):
-        print("Install dependencies Gem5...")
+        print("Install dependencies Gem5... ", end="")
         args = ["sh", "/content/nvcc4jupyter/valgrind/update_install.sh"]
 
         output = subprocess.check_output(args, stderr=subprocess.STDOUT)
         output = output.decode('utf8')
         helper.print_out(output)
+        print("done!")
 
     def run_gem5(self, file_path, args):
 
