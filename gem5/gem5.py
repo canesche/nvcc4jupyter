@@ -28,15 +28,26 @@ class Gem5Plugin(Magics):
 
     def run_gem5(self, file_path, args):
 
-        options = ""
-        for opt in args[1:]:
-            options += " " + opt
-
-        arguments = ["sh", "/content/nvcc4jupyter/gem5/execute.sh", args[0], file_path + ext, options]
+        arguments = ["sh", "/content/nvcc4jupyter/gem5/execute.sh", args[0], file_path + ext]
 
         output = subprocess.check_output(arguments, stderr=subprocess.STDOUT)
         output = output.decode('utf8')
         helper.print_out(output)
+
+        if len(args) > 2:
+            print("--- Statistics ---")
+            if 'all' in args[1:]:
+                arguments = ["cat", "/content/m5out/stats.txt"]
+            else:
+                statistics = ""
+                for s in args[1:]:
+                    statistics = s + ", "
+                statistics = statistics[:-2]
+                arguments = ["sh", "/content/nvcc4jupyter/gem5/statistic.sh", statistics]
+
+            output = subprocess.check_output(arguments, stderr=subprocess.STDOUT)
+            output = output.decode('utf8')
+            helper.print_out(output)
     
     @cell_magic
     def gem5(self, line, cell):
