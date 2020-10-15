@@ -21,33 +21,29 @@ class Gem5Plugin(Magics):
         print("Install dependencies Gem5... ", end="")
         args = ["sh", "/content/nvcc4jupyter/valgrind/update_install.sh"]
 
+        self.execution(args)
+        print("done!")
+    
+    def execution(self, args):
         output = subprocess.check_output(args, stderr=subprocess.STDOUT)
         output = output.decode('utf8')
         helper.print_out(output)
-        print("done!")
 
     def run_gem5(self, file_path, args):
 
         arguments = ["sh", "/content/nvcc4jupyter/gem5/execute.sh", args[0], file_path + ext]
 
-        output = subprocess.check_output(arguments, stderr=subprocess.STDOUT)
-        output = output.decode('utf8')
-        helper.print_out(output)
+        self.execution(arguments)
 
-        if len(args) > 2:
-            print("--- Statistics ---")
+        if len(args) > 1:
             if 'all' in args[1:]:
                 arguments = ["cat", "/content/m5out/stats.txt"]
+                self.execution(arguments)
             else:
-                statistics = ""
+                print("---------- Begin Simulation Statistics ----------")
                 for s in args[1:]:
-                    statistics = s + ", "
-                statistics = statistics[:-2]
-                arguments = ["sh", "/content/nvcc4jupyter/gem5/statistic.sh", statistics]
-
-            output = subprocess.check_output(arguments, stderr=subprocess.STDOUT)
-            output = output.decode('utf8')
-            helper.print_out(output)
+                    arguments = ["sh", "/content/nvcc4jupyter/gem5/statistic.sh", s]
+                    self.execution(arguments)
     
     @cell_magic
     def gem5(self, line, cell):
