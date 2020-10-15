@@ -15,7 +15,7 @@ class Gem5Plugin(Magics):
     def __init__(self, shell):
         super(Gem5Plugin, self).__init__(shell)
         self.argparser = helper.get_argparser()
-        self.updateInstall()
+        #self.updateInstall()
     
     def updateInstall(self):
         print("Install dependencies Gem5... ", end="")
