@@ -4,6 +4,7 @@ from c.c import CPlugin as C
 from cpp.cpp import CPPPlugin as CPP
 from java.java import JavaPlugin as JAVA
 from verilog.verilog import VERILOGPlugin as VERILOG
+from gem5.gem5 import Gem5Plugin as GEM5
 
 
 def load_ipython_extension(ip):
@@ -24,3 +25,6 @@ def load_ipython_extension(ip):
 
     java_plugin = JAVA(ip)
     ip.register_magics(java_plugin)
+
+    gem5_plugin = GEM5(ip)
+    ip.register_magics(gem5_plugin)
