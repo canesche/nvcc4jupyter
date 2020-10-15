@@ -28,7 +28,11 @@ class Gem5Plugin(Magics):
 
     def run_gem5(self, file_path, args):
 
-        arguments = ["sh", "/content/nvcc4jupyter/gem5/execute.sh", args[0], file_path + ext]
+        options = ""
+        for opt in args[1:]:
+            options += " " + opt
+
+        arguments = ["sh", "/content/nvcc4jupyter/gem5/execute.sh", args[0], file_path + ext, options]
 
         output = subprocess.check_output(arguments, stderr=subprocess.STDOUT)
         output = output.decode('utf8')
