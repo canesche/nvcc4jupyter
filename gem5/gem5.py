@@ -43,7 +43,9 @@ class Gem5Plugin(Magics):
                 print("---------- Begin Simulation Statistics ----------")
                 for s in args[1:]:
                     arguments = ["sh", "/content/nvcc4jupyter/gem5/statistic.sh", s]
-                    self.execution(arguments)
+                    output = subprocess.check_output(args, stderr=subprocess.STDOUT)
+                    output = output.decode('utf8')
+                    helper.print_out(output.replace("\n\n","\n"))
     
     @cell_magic
     def gem5(self, line, cell):
