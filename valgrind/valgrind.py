@@ -27,6 +27,13 @@ class ValgrindPlugin(Magics):
         #helper.print_out(output)
         print("done!")
     
+    def executeValgrind(self):
+        args = ["sh", "/content/nvcc4jupyter/valgrind/execute.sh"]
+
+        output = subprocess.check_output(args, stderr=subprocess.STDOUT)
+        output = output.decode('utf8')
+        helper.print_out(output)
+    
     def compile(self, file_path):
         args = [compiler, file_path + ext, "-O3", "-o", file_path + ".out"]
         subprocess.check_output(args, stderr=subprocess.STDOUT)
@@ -57,5 +64,6 @@ class ValgrindPlugin(Magics):
             f.write(cell)
         try:
             self.run_cpp(file_path, args)
+
         except subprocess.CalledProcessError as e:
             helper.print_out(e.output.decode("utf8"))
