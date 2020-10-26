@@ -45,7 +45,6 @@ class ValgrindPlugin(Magics):
                 break
             v[i] = args[i]
 
-
         args = ["sh", "/content/nvcc4jupyter/valgrind/execute.sh", v[0], v[1], v[2]]
 
         output = subprocess.check_output(args, stderr=subprocess.STDOUT)
