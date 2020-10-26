@@ -19,7 +19,7 @@ class ValgrindPlugin(Magics):
         self.already_install = False
     
     def updateInstall(self):
-        print("First time use\nInstall valgrind on machine... ", end="")
+        print("First time use: Install valgrind on machine... ", end="")
         args = ["sh", "/content/nvcc4jupyter/valgrind/update_install.sh"]
 
         output = subprocess.check_output(args, stderr=subprocess.STDOUT)
