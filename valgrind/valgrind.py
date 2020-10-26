@@ -32,7 +32,7 @@ class ValgrindPlugin(Magics):
         for l in out.split('\n'):
             if c > 12:
                 res = l.split("==")
-                print(res[3])
+                print(res[2])
             c += 1
 
     def executeValgrind(self):
