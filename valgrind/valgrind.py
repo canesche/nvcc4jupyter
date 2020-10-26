@@ -24,7 +24,7 @@ class ValgrindPlugin(Magics):
 
         output = subprocess.check_output(args, stderr=subprocess.STDOUT)
         output = output.decode('utf8')
-        helper.print_out(output)
+        #helper.print_out(output)
         print("done!")
     
     def compile(self, file_path):
