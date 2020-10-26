@@ -27,16 +27,21 @@ class ValgrindPlugin(Magics):
         #helper.print_out(output)
         print("done!")
     
-    def parse_out(self, out:str):
+    def parse_out(self, out, print_file):
         c = 0
+        if print_file:
+            f = open("/content/print_out.txt", "w")
+
         for l in out.split('\n'):
             if c > 12:
                 res = l.split("==")
                 if len(res) > 1:
                     print(res[2][1:])
+                    if print_file:
+                        f.write(res[2][1:] + "\n")
             c += 1
 
-    def executeValgrind(self, args):
+    def executeValgrind(self, args, print_file):
 
         v = ['', '', '']
 
@@ -50,7 +55,7 @@ class ValgrindPlugin(Magics):
         output = subprocess.check_output(args, stderr=subprocess.STDOUT)
         output = output.decode('utf8')
 
-        self.parse_out(output)
+        self.parse_out(output, print_file)
     
     def compile(self, file_path):
         args = [compiler, file_path + ext, "-O3", "-o", file_path + ".out"]
@@ -73,8 +78,12 @@ class ValgrindPlugin(Magics):
             self.already_install = True
             self.updateInstall()
 
+        print_file = False
+        if '--file' in line:
+            line.replace("--file", "")
+            print_file = True
+
         args = line.split()
-        #print(args)
 
         file_path = '/content/valgrind_code'
 
@@ -82,7 +91,7 @@ class ValgrindPlugin(Magics):
             f.write(cell)
         try:
             self.run_cpp(file_path)
-            self.executeValgrind(args)
+            self.executeValgrind(args, print_file)
 
         except subprocess.CalledProcessError as e:
             helper.print_out(e.output.decode("utf8"))
