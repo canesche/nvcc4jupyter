@@ -64,6 +64,7 @@ class ValgrindPlugin(Magics):
             f.write(cell)
         try:
             self.run_cpp(file_path, args)
+            self.executeValgrind()
 
         except subprocess.CalledProcessError as e:
             helper.print_out(e.output.decode("utf8"))
