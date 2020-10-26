@@ -27,11 +27,20 @@ class ValgrindPlugin(Magics):
         #helper.print_out(output)
         print("done!")
     
+    def parse_out(self, out:str):
+        c = 0
+        for l in out.split('\n'):
+            if c > 12:
+                print(l)
+            c += 1
+
     def executeValgrind(self):
         args = ["sh", "/content/nvcc4jupyter/valgrind/execute.sh"]
 
         output = subprocess.check_output(args, stderr=subprocess.STDOUT)
         output = output.decode('utf8')
+
+        self.parse_out(output)
         helper.print_out(output)
     
     def compile(self, file_path):
