@@ -75,7 +75,7 @@ class ValgrindPlugin(Magics):
             self.updateInstall()
 
         args = line.split()
-        print(args)
+        #print(args)
 
         file_path = '/content/valgrind_code'
 
