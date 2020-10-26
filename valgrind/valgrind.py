@@ -36,8 +36,17 @@ class ValgrindPlugin(Magics):
                     print(res[2][1:])
             c += 1
 
-    def executeValgrind(self):
-        args = ["sh", "/content/nvcc4jupyter/valgrind/execute.sh"]
+    def executeValgrind(self, args):
+
+        v = ['', '', '']
+
+        for i in range(len(args)):
+            if i >= 3:
+                break
+            v[i] = args[i]
+
+
+        args = ["sh", "/content/nvcc4jupyter/valgrind/execute.sh", v[0], v[1], v[2]]
 
         output = subprocess.check_output(args, stderr=subprocess.STDOUT)
         output = output.decode('utf8')
@@ -48,7 +57,7 @@ class ValgrindPlugin(Magics):
         args = [compiler, file_path + ext, "-O3", "-o", file_path + ".out"]
         subprocess.check_output(args, stderr=subprocess.STDOUT)
 
-    def run_cpp(self, file_path, args):
+    def run_cpp(self, file_path):
         
         self.compile(file_path)
         args = [file_path + ".out"]
@@ -73,8 +82,8 @@ class ValgrindPlugin(Magics):
         with open(file_path + ext, "w") as f:
             f.write(cell)
         try:
-            self.run_cpp(file_path, args)
-            self.executeValgrind()
+            self.run_cpp(file_path)
+            self.executeValgrind(args)
 
         except subprocess.CalledProcessError as e:
             helper.print_out(e.output.decode("utf8"))
