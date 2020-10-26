@@ -27,7 +27,7 @@ def load_ipython_extension(ip):
     java_plugin = JAVA(ip)
     ip.register_magics(java_plugin)
 
-    valgrind_plugin = Valgrind(ip)
+    ValgrindPlugin = Valgrind(ip)
     ip.register_magics(ValgrindPlugin)
 
     gem5_plugin = GEM5(ip)
