@@ -33,7 +33,7 @@ class ValgrindPlugin(Magics):
             if c > 12:
                 res = l.split("==")
                 if len(res) > 1:
-                    print(res[2])
+                    print(res[2][1:])
             c += 1
 
     def executeValgrind(self):
@@ -43,7 +43,6 @@ class ValgrindPlugin(Magics):
         output = output.decode('utf8')
 
         self.parse_out(output)
-        helper.print_out(output)
     
     def compile(self, file_path):
         args = [compiler, file_path + ext, "-O3", "-o", file_path + ".out"]
