@@ -63,6 +63,8 @@ class VERILOGPlugin(Magics):
 
         output = subprocess.check_output(args, stderr=subprocess.STDOUT)
         output = output.decode('utf8')
+
+        eval(path)
         #helper.print_out(output)
 
     @cell_magic
