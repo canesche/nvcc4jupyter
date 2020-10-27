@@ -114,7 +114,7 @@ class VERILOGPlugin(Magics):
         time_end = 0
         base = ''
 
-        exec(cell)
+        exec(cell.replace(' ', ''))
         
         vcd_plt  = VcdPlotter('/content/%s'%name)
         vcd_plt.show(sign_list, time_begin, time_end, base)
