@@ -7,7 +7,7 @@ from codecs import decode
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-from src.vcd_parser import VcdParser
+from vcd_parser import VcdParser
 
 class VcdPlotter():
     def __init__(self,vcd_file:str):
