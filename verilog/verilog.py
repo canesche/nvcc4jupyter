@@ -110,9 +110,13 @@ class VERILOGPlugin(Magics):
         #sys.path.insert(0,'.')
         #from nvcc4jupyter.verilog.vcd_parser.vcd_plotter import VcdPlotter
 
-        print(cell)
         exec(cell.replace('\n ', '\n'))
         
+        print(sign_list)
+        print(time_begin)
+        print(time_end)
+        print(base)
+
         #vcd_plt  = VcdPlotter('/content/%s'%name)
         #vcd_plt.show(sign_list, time_begin, time_end, base)
         
