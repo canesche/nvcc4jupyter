@@ -97,13 +97,30 @@ class VERILOGPlugin(Magics):
     def waveform(self, line, cell):
         args = line.split()
 
-        name = 'out.vcd'
         if len(args) > 0:
             name = args[0]
             if '.vcd' not in name:
                 name += '.vcd'
+        else:
+            print("Name of file not exist! Please give the name.")
+            print("Ex. \%\%waveform <name_file>.vcd")
+            exit(0)
+        
+        import sys
+        sys.path.insert(0,'.')
+        from nvcc4jupyter.verilog.vcd_parser.vcd_plotter import VcdPlotter
+        sign_list = 0
+        time_begin = 0
+        time_end = 0
+        base = ''
 
-        file_path = os.path.join('/content/execute.py')
+        eval(cell)
+        
+        vcd_plt  = VcdPlotter('/content/%s'%name)
+        vcd_plt.show(sign_list, time_begin, time_end, base)
+        
+        '''
+        file_path = '/content/execute.py'
 
         with open(file_path, "w") as f:
             f.write("import sys\n")
@@ -116,3 +133,4 @@ class VERILOGPlugin(Magics):
             self.run_waveform(file_path)
         except subprocess.CalledProcessError as e:
             helper.print_out(e.output.decode("utf8"))
+        '''
