@@ -58,11 +58,11 @@ class VERILOGPlugin(Magics):
         display(Image(filename="/content/code.png"))
     
     def run_waveform(self, path):
-        args = ['python3', path]
+        args = ['python3', path + ".py"]
 
         output = subprocess.check_output(args, stderr=subprocess.STDOUT)
         output = output.decode('utf8')
-        helper.print_out(output)
+        #helper.print_out(output)
 
     @cell_magic
     def verilog(self, line, cell):
@@ -100,7 +100,7 @@ class VERILOGPlugin(Magics):
             if '.vcd' not in name:
                 name += '.vcd'
 
-        file_path = os.path.join('/content/execute.py')
+        file_path = os.path.join('/content/execute')
 
         with open(file_path, "w") as f:
             f.write("import sys\n")
@@ -108,6 +108,7 @@ class VERILOGPlugin(Magics):
             f.write("from nvcc4jupyter.verilog.vcd_parser.vcd_plotter import VcdPlotter\n")
             f.write("vcd_plt  = VcdPlotter('/content/%s')\n" %name)
             f.write(cell)
+            f.write("vcd_plt.show(sign_list, time_begin, time_end, base)\n")
         try:
             self.run_waveform(file_path)
         except subprocess.CalledProcessError as e:
