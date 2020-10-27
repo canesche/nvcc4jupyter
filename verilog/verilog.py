@@ -106,7 +106,7 @@ class VERILOGPlugin(Magics):
             f.write("import sys\n")
             f.write("sys.path.insert(0,'.')\n")
             f.write("from nvcc4jupyter.verilog.vcd_parse.vcd_plotter import VcdPlotter\n")
-            f.write("vcd_plt  = VcdPlotter('/content/' + %s)\n" %name)
+            f.write("vcd_plt  = VcdPlotter('/content/%s')\n" %name)
             f.write(cell)
         try:
             self.run_waveform(file_path)
