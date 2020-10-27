@@ -110,7 +110,10 @@ class VERILOGPlugin(Magics):
         #sys.path.insert(0,'.')
         #from nvcc4jupyter.verilog.vcd_parser.vcd_plotter import VcdPlotter
 
-        exec(cell.replace('\n ', '\n'))
+        for l in cell.strip().split("\n"):
+            exec(l)
+
+        #exec(cell.replace('\n ', '\n'))
         
         print(sign_list)
         print(time_begin)
