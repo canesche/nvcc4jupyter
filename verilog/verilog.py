@@ -58,7 +58,8 @@ class VERILOGPlugin(Magics):
         display(Image(filename="/content/code.png"))
     
     def run_waveform(self, path):
-        args = ['python3', path + ".py"]
+
+        args = ['python3', path]
 
         output = subprocess.check_output(args, stderr=subprocess.STDOUT)
         output = output.decode('utf8')
@@ -100,7 +101,7 @@ class VERILOGPlugin(Magics):
             if '.vcd' not in name:
                 name += '.vcd'
 
-        file_path = os.path.join('/content/execute')
+        file_path = os.path.join('/content/execute.py')
 
         with open(file_path, "w") as f:
             f.write("import sys\n")
