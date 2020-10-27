@@ -4,7 +4,6 @@ import tempfile
 import uuid
 import graphviz
 from IPython.display import display, Image
-
 from IPython.core.magic import Magics, cell_magic, magics_class
 from IPython.core.magic_arguments import argument, magic_arguments, parse_argstring
 from common import helper
@@ -57,6 +56,13 @@ class VERILOGPlugin(Magics):
 
         # Printer dot
         display(Image(filename="/content/code.png"))
+    
+    def run_waveform(self, path):
+        args = ['python3', path]
+
+        output = subprocess.check_output(args, stderr=subprocess.STDOUT)
+        output = output.decode('utf8')
+        helper.print_out(output)
 
     @cell_magic
     def verilog(self, line, cell):
@@ -81,5 +87,28 @@ class VERILOGPlugin(Magics):
             f.write(cell)
         try:
             self.run_yosys(file_path)
+        except subprocess.CalledProcessError as e:
+            helper.print_out(e.output.decode("utf8"))
+    
+    @cell_magic
+    def waveform(self, line, cell):
+        args = line.split()
+
+        name = 'out.vcd'
+        if len(args) > 0:
+            name = args[0]
+            if '.vcd' not in name:
+                name += '.vcd'
+
+        file_path = os.path.join('/content/execute.py')
+
+        with open(file_path, "w") as f:
+            f.write("import sys\n")
+            f.write("sys.path.insert(0,'.')\n")
+            f.write("from nvcc4jupyter.verilog.vcd_parse.vcd_plotter import VcdPlotter\n")
+            f.write("vcd_plt  = VcdPlotter('/content/' + %s)\n" %name)
+            f.write(cell)
+        try:
+            self.run_waveform(file_path)
         except subprocess.CalledProcessError as e:
             helper.print_out(e.output.decode("utf8"))
