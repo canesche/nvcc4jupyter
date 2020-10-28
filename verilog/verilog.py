@@ -107,6 +107,8 @@ class VERILOGPlugin(Magics):
 
         for l in cell.strip().split("\n"):
             l = l.split("#")[0]
+            if l == '':
+                continue
             if 'sign_list' not in l:
                 s = l.replace('=', '+=[') + ']'
                 exec(s)
