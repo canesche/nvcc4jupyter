@@ -110,14 +110,21 @@ class VERILOGPlugin(Magics):
         #sys.path.insert(0,'.')
         #from nvcc4jupyter.verilog.vcd_parser.vcd_plotter import VcdPlotter
 
-        for l in cell.strip().split("\n"):
-            print(l)
-            exec(l)
+        sign_list = []
+        time_begin = []
+        time_end = []
+        base = []
 
-
-        #exec(cell.replace('\n ', '\n'))
         
-        #print(sign_list)
+
+        for l in cell.strip().split("\n"):
+            if 'sign_list' not in l:
+                s = l.replace('=', '+=[') + ']'
+                exec(s)
+            else:
+                exec(l.replace('=', '+='))
+        
+        print(sign_list)
         print(time_begin)
         print(time_end)
         print(base)
