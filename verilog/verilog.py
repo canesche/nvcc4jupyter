@@ -106,16 +106,14 @@ class VERILOGPlugin(Magics):
             print("Ex. \%\%waveform <name_file>.vcd")
             exit(0)
         
-        #import sys
-        #sys.path.insert(0,'.')
-        #from nvcc4jupyter.verilog.vcd_parser.vcd_plotter import VcdPlotter
+        import sys
+        sys.path.insert(0,'.')
+        from nvcc4jupyter.verilog.vcd_parser.vcd_plotter import VcdPlotter
 
         sign_list = []
         time_begin = []
         time_end = []
         base = []
-
-        
 
         for l in cell.strip().split("\n"):
             if 'sign_list' not in l:
@@ -129,8 +127,8 @@ class VERILOGPlugin(Magics):
         print(time_end)
         print(base)
 
-        #vcd_plt  = VcdPlotter('/content/%s'%name)
-        #vcd_plt.show(sign_list, time_begin, time_end, base)
+        vcd_plt  = VcdPlotter('/content/%s'%name)
+        vcd_plt.show(sign_list, time_begin[0], time_end[0], base[0])
         
         '''
         file_path = '/content/execute.py'
