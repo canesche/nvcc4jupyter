@@ -100,11 +100,6 @@ class VERILOGPlugin(Magics):
         sys.path.insert(0,'.')
         from nvcc4jupyter.verilog.vcd_parser.vcd_plotter import VcdPlotter
 
-        sign_list = []
-        time_begin = 0
-        time_end = 100
-        base = 'bin'
-
         exec(cell.replace("\n", ";"),globals())
 
         vcd_plt  = VcdPlotter('/content/%s'%name)
