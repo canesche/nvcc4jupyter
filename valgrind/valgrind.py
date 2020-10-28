@@ -58,7 +58,7 @@ class ValgrindPlugin(Magics):
         self.parse_out(output, print_file)
     
     def compile(self, file_path):
-        args = [compiler, file_path + ext, "-O3", "-o", file_path + ".out"]
+        args = [compiler, file_path + ext, "-o", file_path + ".out"]
         subprocess.check_output(args, stderr=subprocess.STDOUT)
 
     def run_cpp(self, file_path):
