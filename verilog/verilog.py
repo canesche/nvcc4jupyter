@@ -111,11 +111,13 @@ class VERILOGPlugin(Magics):
         #from nvcc4jupyter.verilog.vcd_parser.vcd_plotter import VcdPlotter
 
         for l in cell.strip().split("\n"):
+            print(l)
             exec(l)
+
 
         #exec(cell.replace('\n ', '\n'))
         
-        print(sign_list)
+        #print(sign_list)
         print(time_begin)
         print(time_end)
         print(base)
