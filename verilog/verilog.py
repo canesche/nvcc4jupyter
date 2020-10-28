@@ -56,16 +56,6 @@ class VERILOGPlugin(Magics):
 
         # Printer dot
         display(Image(filename="/content/code.png"))
-    
-    def run_waveform(self, path):
-
-        args = ['python3', path]
-
-        output = subprocess.check_output(args, stderr=subprocess.STDOUT)
-        output = output.decode('utf8')
-
-        eval(path)
-        #helper.print_out(output)
 
     @cell_magic
     def verilog(self, line, cell):
@@ -116,32 +106,12 @@ class VERILOGPlugin(Magics):
         base = []
 
         for l in cell.strip().split("\n"):
+            l = l.split("#")[0]
             if 'sign_list' not in l:
                 s = l.replace('=', '+=[') + ']'
                 exec(s)
             else:
                 exec(l.replace('=', '+='))
-        
-        print(sign_list)
-        print(time_begin)
-        print(time_end)
-        print(base)
 
         vcd_plt  = VcdPlotter('/content/%s'%name)
         vcd_plt.show(sign_list, time_begin[0], time_end[0], base[0])
-        
-        '''
-        file_path = '/content/execute.py'
-
-        with open(file_path, "w") as f:
-            f.write("import sys\n")
-            f.write("sys.path.insert(0,'.')\n")
-            f.write("from nvcc4jupyter.verilog.vcd_parser.vcd_plotter import VcdPlotter\n")
-            f.write("vcd_plt  = VcdPlotter('/content/%s')\n" %name)
-            f.write(cell)
-            f.write("vcd_plt.show(sign_list, time_begin, time_end, base)\n")
-        try:
-            self.run_waveform(file_path)
-        except subprocess.CalledProcessError as e:
-            helper.print_out(e.output.decode("utf8"))
-        '''
