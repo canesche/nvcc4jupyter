@@ -137,7 +137,7 @@ class Gem5Plugin(Magics):
     def gem5(self, line, cell):
         args = line.split()
         
-        if 'view' in line:
+        if 'visual' in line:
             self.view_scope()
             return
 
