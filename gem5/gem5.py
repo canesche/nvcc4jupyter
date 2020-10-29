@@ -124,6 +124,10 @@ class Gem5Plugin(Magics):
         gridMemory[0,0] = create_expanded_button("Memory", "warning")
         gridMemory[0,1] = create_expanded_Select("", options=['DDR3_1600_8x8','DDR4_2400_8x8'], value='DDR3_1600_8x8')
 
+        gridSim = GridspecLayout(1, 10)
+        #danger = vermelho
+        gridSim[0,0] = create_expanded_button("Start Simulate", "success")
+
         display(grid)
         display(gridclock)
         print("")
@@ -131,6 +135,8 @@ class Gem5Plugin(Magics):
         display(gridCacheL2)
         print("")
         display(gridMemory)
+        print("")
+        display(gridSim)
     
     @cell_magic
     def gem5(self, line, cell):
