@@ -5,6 +5,9 @@ import uuid
 
 from IPython.core.magic import Magics, cell_magic, magics_class
 from IPython.core.magic_arguments import argument, magic_arguments, parse_argstring
+import ipywidgets as widgets
+from IPython.display import display
+from ipywidgets import *
 from common import helper
 
 ext = '.py'
@@ -48,10 +51,6 @@ class Gem5Plugin(Magics):
                     helper.print_out(output.replace("\n\n","\n"))
 
     def view_scope(self):
-        import ipywidgets as widgets
-        from IPython.display import display
-
-        from ipywidgets import *
 
         def on_button_clicked(b):
             print("Button clicked.", b.description)
