@@ -48,7 +48,7 @@ class Gem5Plugin(Magics):
                     helper.print_out(output.replace("\n\n","\n"))
     
     @cell_magic
-    def gem5(self, line, cell):
+    def gem5(self, line, cell="#"):
         args = line.split()
         print(args)
 
