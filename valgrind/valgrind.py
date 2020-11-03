@@ -52,6 +52,7 @@ class ValgrindPlugin(Magics):
                     elif 'D1  miss rate:' in res[2][1:]:
                         results['miss_rate'] = int(res[2][1:].split(":")[1].split("(")[0])
             c += 1
+        print(results)
 
     def exec_range_cache(self, args, results):
 
