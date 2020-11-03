@@ -154,15 +154,12 @@ class ValgrindPlugin(Magics):
         bargraph = ['misses', 'miss_rate']
 
         line = line.strip().replace(" ","").split(";")
-        print(line)
 
         for l in line:
             if 'datacache' in l:
                 datacache = []
                 l = l.replace('datacache=','').replace('(','').replace(')','').split(',')
-                print(l)
                 for d in l:
-                    print(d)
                     datacache.append(int(d))
             elif 'ways' in l:
                 ways = []
@@ -178,9 +175,7 @@ class ValgrindPlugin(Magics):
                 bargraph = []
                 l = l.replace('bargraph=','').replace('(','').replace(')','').split(',')
                 for d in l:
-                    bargraph.append(d)
-
-        print(datacache, ways, lines, bargraph)        
+                    bargraph.append(d)      
 
         file_path = '/content/valgrind_code'
 
@@ -198,8 +193,6 @@ class ValgrindPlugin(Magics):
                     for k in range(len(lines)):
                         args = [datacache[i], ways[j], lines[k]]
                         self.exec_range_cache(args, results)
-
-            print(results)
             self.print_bar(datacache, results)
 
         except subprocess.CalledProcessError as e:
