@@ -2,6 +2,8 @@ import os
 import subprocess
 import tempfile
 import uuid
+from ipywidgets import *
+from IPython.display import display
 
 from IPython.core.magic import Magics, cell_magic, magics_class
 from IPython.core.magic_arguments import argument, magic_arguments, parse_argstring
@@ -202,8 +204,6 @@ class ValgrindPlugin(Magics):
             helper.print_out(e.output.decode("utf8"))
     
     def create_visual(self):
-        from ipywidgets import *
-        from IPython.display import display
 
         size = 2
         assoc = 2
