@@ -105,14 +105,15 @@ class ValgrindPlugin(Magics):
 
         for r in results:
             fig, ax = plt.subplots()
-            ax.bar(labels, results[r])
-            #ax.set_title('DataCache Misses')
             ax.set_xlabel("Size")
-
             if r == 'misses':
+                ax.set_title('DataCache Misses')
+                ax.bar(labels, results[r], color='b')
                 ax.set_ylabel("D1 misses")
                 plt.savefig("misses.svg")
             elif r == 'miss_rate':
+                ax.set_title('DataCache Miss Rate')
+                ax.bar(labels, results[r], color='g')
                 ax.set_ylabel("D1 miss rate (%)")
                 plt.savefig("miss_rate.svg")
 
