@@ -40,8 +40,20 @@ class ValgrindPlugin(Magics):
                     if print_file:
                         f.write(res[2][1:] + "\n")
             c += 1
+    
+    def parse_res(self, out, results):
+        c = 0
+        for l in out.split('\n'):
+            if c > 12:
+                res = l.split("==")
+                if len(res) > 1:
+                    if 'D1  misses:' in res[2][1:]:
+                        results['misses'] = int(res[2][1:].split(":")[1].split("(")[0])
+                    elif 'D1  miss rate:' in res[2][1:]:
+                        results['miss_rate'] = int(res[2][1:].split(":")[1].split("(")[0])
+            c += 1
 
-    def exec_range_cache(self, args):
+    def exec_range_cache(self, args, results):
 
         v = '--D1=%d,%d,%d' %(args[0]*1024,args[1],args[2])
         args = ["sh", "/content/nvcc4jupyter/valgrind/execute.sh", v, '', '']
@@ -153,12 +165,18 @@ class ValgrindPlugin(Magics):
             f.write(cell)
         try:
             self.run_cpp(file_path)
-            results = []
+            
+            results = {}
+            for b in bargraph:
+                results[b] = []
+
             for i in range(len(datacache)):
                 for j in range(len(ways)):
                     for k in range(len(lines)):
                         args = [datacache[i], ways[j], lines[k]]
-                        self.exec_range_cache(args)
+                        self.exec_range_cache(args, results)
+
+            print(results)
 
         except subprocess.CalledProcessError as e:
             helper.print_out(e.output.decode("utf8"))
