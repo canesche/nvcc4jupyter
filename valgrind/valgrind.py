@@ -49,12 +49,11 @@ class ValgrindPlugin(Magics):
                 if len(res) > 1:
                     if 'D1  misses:' in res[2][1:]:
                         value = res[2][1:].split(":")[1].split("(")[0].replace(",","").replace(" ","")
-                        results['misses'] = int(value)
+                        results['misses'].append(int(value))
                     elif 'D1  miss rate:' in res[2][1:]:
                         value = res[2][1:].split(":")[1].split("(")[0].replace(",","").replace("%","").replace(" ","")
-                        results['miss_rate'] = float(value)
+                        results['miss_rate'].append(float(value))
             c += 1
-        print(results)
 
     def exec_range_cache(self, args, results):
 
@@ -95,6 +94,27 @@ class ValgrindPlugin(Magics):
         output = output.decode('utf8')
             
         helper.print_out(output)
+
+    def print_bar(self, datacache, results):
+
+        import matplotlib.pyplot as plt 
+
+        labels = []
+        for d in datacache:
+            labels.append(str(d)+"kB")
+
+        for r in results:
+            fig, ax = plt.subplots()
+            ax.bar(labels, results[r])
+            #ax.set_title('DataCache Misses')
+            ax.set_xlabel("Size")
+
+            if r == 'misses':
+                ax.set_ylabel("D1 misses")
+                plt.savefig("misses.svg")
+            elif r == 'miss_rate':
+                ax.set_ylabel("D1 miss rate (%)")
+                plt.savefig("miss_rate.svg")
 
     @cell_magic
     def cachegrind(self, line, cell):
@@ -180,6 +200,7 @@ class ValgrindPlugin(Magics):
                         self.exec_range_cache(args, results)
 
             print(results)
+            self.print_bar(datacache, results)
 
         except subprocess.CalledProcessError as e:
             helper.print_out(e.output.decode("utf8"))
