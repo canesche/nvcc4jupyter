@@ -51,8 +51,8 @@ class ValgrindPlugin(Magics):
                         value = res[2][1:].split(":")[1].split("(")[0].replace(",","").replace(" ","")
                         results['misses'] = int(value)
                     elif 'D1  miss rate:' in res[2][1:]:
-                        value = res[2][1:].split(":")[1].split("(")[0].replace(",","").replace(" ","")
-                        results['miss_rate'] = int(value)
+                        value = res[2][1:].split(":")[1].split("(")[0].replace(",","").replace("%","").replace(" ","")
+                        results['miss_rate'] = float(value)
             c += 1
         print(results)
 
