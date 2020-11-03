@@ -228,11 +228,11 @@ class ValgrindPlugin(Magics):
         def on_value_change_slider(change):
             global size, assoc, lines
             if change['owner'].name == 'size':
-            size = int(change['owner'].value)
+                size = int(change['owner'].value)
             elif change['owner'].name == 'assoc':
-            assoc = int(change['owner'].value)
+                assoc = int(change['owner'].value)
             elif change['owner'].name == 'lines':
-            lines = int(change['owner'].value)
+                lines = int(change['owner'].value)
 
         def create_Text(description="", button_style=""):
             return Button(description=description, button_style=button_style, layout=Layout(height='auto', width='auto'))
