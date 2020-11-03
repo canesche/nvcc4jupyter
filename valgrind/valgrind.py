@@ -109,6 +109,7 @@ class ValgrindPlugin(Magics):
         bargraph = ['misses', 'miss_rate']
 
         line = line.strip().split(";")
+        print(line)
 
         file_path = '/content/valgrind_code'
 
