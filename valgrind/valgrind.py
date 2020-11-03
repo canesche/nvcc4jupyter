@@ -43,7 +43,7 @@ class ValgrindPlugin(Magics):
 
     def exec_range_cache(self, args):
 
-        v = '--D1=%d,%d,%d' %(args[0],args[1],args[2])
+        v = '--D1=%d,%d,%d' %(args[0]*1024,args[1],args[2])
         args = ["sh", "/content/nvcc4jupyter/valgrind/execute.sh", v, '', '']
 
         output = subprocess.check_output(args, stderr=subprocess.STDOUT)
