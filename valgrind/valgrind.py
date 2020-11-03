@@ -62,7 +62,7 @@ class ValgrindPlugin(Magics):
         output = subprocess.check_output(args, stderr=subprocess.STDOUT)
         output = output.decode('utf8')
 
-        self.parse_out(output, False)
+        self.parse_res(output, results)
 
     def executeValgrind(self, args, print_file):
 
