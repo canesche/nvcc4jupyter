@@ -115,7 +115,9 @@ class ValgrindPlugin(Magics):
             if 'datacache' in l:
                 datacache = []
                 l = l.replace('datacache=','').replace('(','').replace(')','').split(',')
+                print(l)
                 for d in l:
+                    print(d)
                     datacache.append(int(l))
             elif 'ways' in l:
                 ways = []
