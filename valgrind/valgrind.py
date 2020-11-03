@@ -118,22 +118,22 @@ class ValgrindPlugin(Magics):
                 print(l)
                 for d in l:
                     print(d)
-                    datacache.append(int(l))
+                    datacache.append(int(d))
             elif 'ways' in l:
                 ways = []
                 l = l.replace('ways=','').replace('(','').replace(')','').split(',')
                 for d in l:
-                    ways.append(int(l))
+                    ways.append(int(d))
             elif 'line' in l:
                 lines = []
                 l = l.replace('line=','').replace('(','').replace(')','').split(',')
                 for d in l:
-                    lines.append(int(l))
+                    lines.append(int(d))
             elif 'bargraph' in l:
                 lines = []
                 l = l.replace('bargraph=','').replace('(','').replace(')','').split(',')
                 for d in l:
-                    lines.append(l)
+                    lines.append(d)
 
         print(datacache, ways, lines, bargraph)        
 
