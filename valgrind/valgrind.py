@@ -95,3 +95,28 @@ class ValgrindPlugin(Magics):
 
         except subprocess.CalledProcessError as e:
             helper.print_out(e.output.decode("utf8"))
+    
+    @cell_magic
+    def rangecachegrind(self, line, cell):
+
+        if not self.already_install:
+            self.already_install = True
+            self.updateInstall()
+
+        datacache = [4]
+        ways = [2]
+        lines = [32]
+        bargraph = ['misses', 'miss_rate']
+
+        line = line.strip().split(";")
+
+        file_path = '/content/valgrind_code'
+
+        with open(file_path + ext, "w") as f:
+            f.write(cell)
+        try:
+            self.run_cpp(file_path)
+            #self.executeValgrind(args, print_file)
+
+        except subprocess.CalledProcessError as e:
+            helper.print_out(e.output.decode("utf8"))
