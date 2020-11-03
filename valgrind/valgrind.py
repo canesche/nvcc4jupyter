@@ -131,7 +131,7 @@ class ValgrindPlugin(Magics):
                 lines = []
                 l = l.replace('bargraph=','').replace('(','').replace(')','').split(',')
                 for d in l:
-                    lines.append(int(l))
+                    lines.append(l)
 
         print(datacache, ways, lines, bargraph)        
 
