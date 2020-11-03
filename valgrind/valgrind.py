@@ -200,3 +200,87 @@ class ValgrindPlugin(Magics):
 
         except subprocess.CalledProcessError as e:
             helper.print_out(e.output.decode("utf8"))
+    
+    def create_visual(self):
+        from ipywidgets import *
+        from IPython.display import display
+
+        size = 2
+        assoc = 2
+        lines = 32
+
+        def on_button_clicked(b):
+            global size, assoc, lines
+            if b.name == 'exec':
+                b.button_style = 'danger'
+                b.description = 'wait'
+                # method
+                exec = "--D1=%d,%d,%d" %(size*1024,assoc,lines)
+                self.executeValgrind([exec],True)
+                print(exec)
+                print("simulation")
+                b.button_style = 'success'
+                b.description = "Start Simulate"
+
+        def on_value_change(change):
+            print(change['owner'].name, change['owner'].options[change['owner'].index])
+
+        def on_value_change_slider(change):
+            global size, assoc, lines
+            if change['owner'].name == 'size':
+            size = int(change['owner'].value)
+            elif change['owner'].name == 'assoc':
+            assoc = int(change['owner'].value)
+            elif change['owner'].name == 'lines':
+            lines = int(change['owner'].value)
+
+        def create_Text(description="", button_style=""):
+            return Button(description=description, button_style=button_style, layout=Layout(height='auto', width='auto'))
+        def create_Int(id, description="", button_style="", min=1, max=10, value=1, step=1):
+            intText = BoundedIntText(description=description, button_style=button_style, layout=Layout(height='auto', width='auto'), min=min, max=max, value=value, step=step)
+            intText.observe(on_value_change_slider, names='value')
+            intText.name = id
+            return intText
+        def create_slider(id, description="", button_style="", min=1, max=10, value=1, step=1):
+            slider = IntSlider(description="", button_style=button_style, layout=Layout(height='auto', width='auto'), min=min, max=max, value=value, step=step)
+            slider.observe(on_value_change_slider, names='value')
+            slider.name = id
+            return slider
+        def create_button(id, description="", button_style="", disabled=False):
+            btn = Button(description=description, button_style=button_style, layout=Layout(height='auto', width='auto'), disabled=disabled)
+            btn.on_click(on_button_clicked)
+            btn.name = id
+            return btn
+
+        # create a 10x2 grid layout
+        grid = GridspecLayout(4, 10)
+        grid[0,0] = create_Text("Data Cache", "warning")
+        grid[1,0] = create_Text("Size (kB)", "warning")
+        grid[1,1] = create_Int("size", min=2, max=100, value=2, step=2)
+        grid[2,0] = create_Text("Associative", "warning")
+        grid[2,1] = create_slider("assoc", min=2, max=10, value=2, step=2)
+        grid[3,0] = create_Text("Line (Bytes)", "warning")
+        grid[3,1] = create_slider("lines", min=32, max=1024, value=32, step=32)
+
+        grid_exec = GridspecLayout(1, 5)
+        grid_exec[0,0] = create_button("exec", "Start Execution", "success")
+
+        display(grid)
+        display(grid_exec)
+
+    @cell_magic
+    def datacache(self, line, cell):
+
+        if not self.already_install:
+            self.already_install = True
+            self.updateInstall()
+        
+        file_path = '/content/valgrind_code'
+
+        with open(file_path + ext, "w") as f:
+            f.write(cell)
+        try:
+            self.run_cpp(file_path)
+            self.create_visual(file_path)
+        except subprocess.CalledProcessError as e:
+            helper.print_out(e.output.decode("utf8"))
