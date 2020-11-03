@@ -48,9 +48,11 @@ class ValgrindPlugin(Magics):
                 res = l.split("==")
                 if len(res) > 1:
                     if 'D1  misses:' in res[2][1:]:
-                        results['misses'] = int(res[2][1:].split(":")[1].split("(")[0])
+                        value = res[2][1:].split(":")[1].split("(")[0].replace(",","").replace(" ","")
+                        results['misses'] = int(value)
                     elif 'D1  miss rate:' in res[2][1:]:
-                        results['miss_rate'] = int(res[2][1:].split(":")[1].split("(")[0])
+                        value = res[2][1:].split(":")[1].split("(")[0].replace(",","").replace(" ","")
+                        results['miss_rate'] = int(value)
             c += 1
         print(results)
 
