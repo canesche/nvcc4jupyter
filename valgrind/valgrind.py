@@ -108,8 +108,32 @@ class ValgrindPlugin(Magics):
         lines = [32]
         bargraph = ['misses', 'miss_rate']
 
-        line = line.strip().split(";")
+        line = line.strip().replace(" ","").split(";")
         print(line)
+
+        for l in line:
+            if 'datacache' in l:
+                datacache = []
+                l = l.replace('datacache=','').replace('(','').replace(')','').split(',')
+                for d in l:
+                    datacache.append(int(l))
+            elif 'ways' in l:
+                ways = []
+                l = l.replace('ways=','').replace('(','').replace(')','').split(',')
+                for d in l:
+                    ways.append(int(l))
+            elif 'line' in l:
+                lines = []
+                l = l.replace('line=','').replace('(','').replace(')','').split(',')
+                for d in l:
+                    lines.append(int(l))
+            elif 'bargraph' in l:
+                lines = []
+                l = l.replace('bargraph=','').replace('(','').replace(')','').split(',')
+                for d in l:
+                    lines.append(int(l))
+
+        print(datacache, ways, lines, bargraph)        
 
         file_path = '/content/valgrind_code'
 
