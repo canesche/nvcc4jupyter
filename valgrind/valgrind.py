@@ -203,10 +203,10 @@ class ValgrindPlugin(Magics):
         except subprocess.CalledProcessError as e:
             helper.print_out(e.output.decode("utf8"))
     
-    size = 2
-    assoc = 2
-    lines = 32
+    size, assoc, lines = 0, 0, 0
     def create_visual(self):
+        global size, assoc, lines
+        size, assoc, lines = 2, 2, 32
 
         def on_button_clicked(b):
             global size, assoc, lines
