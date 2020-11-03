@@ -49,10 +49,12 @@ class ValgrindPlugin(Magics):
                 if len(res) > 1:
                     if 'D1  misses:' in res[2][1:]:
                         value = res[2][1:].split(":")[1].split("(")[0].replace(",","").replace(" ","")
-                        results['misses'].append(int(value))
+                        if 'misses' in results:
+                            results['misses'].append(int(value))
                     elif 'D1  miss rate:' in res[2][1:]:
                         value = res[2][1:].split(":")[1].split("(")[0].replace(",","").replace("%","").replace(" ","")
-                        results['miss_rate'].append(float(value))
+                        if 'miss_rate' in results:
+                            results['miss_rate'].append(float(value))
             c += 1
 
     def exec_range_cache(self, args, results):
@@ -108,7 +110,7 @@ class ValgrindPlugin(Magics):
             ax.set_xlabel("Size")
             if r == 'misses':
                 ax.set_title('DataCache Misses')
-                ax.bar(labels, results[r], color='b')
+                ax.bar(labels, results[r])
                 ax.set_ylabel("D1 misses")
                 plt.savefig("misses.svg")
             elif r == 'miss_rate':
