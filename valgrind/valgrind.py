@@ -41,6 +41,16 @@ class ValgrindPlugin(Magics):
                         f.write(res[2][1:] + "\n")
             c += 1
 
+    def exec_range_cache(self, args):
+
+        v = '--D1=%d,%d,%d' %(args[0],args[1],args[2])
+        args = ["sh", "/content/nvcc4jupyter/valgrind/execute.sh", v, '', '']
+
+        output = subprocess.check_output(args, stderr=subprocess.STDOUT)
+        output = output.decode('utf8')
+
+        self.parse_out(output, False)
+
     def executeValgrind(self, args, print_file):
 
         v = ['', '', '']
@@ -130,10 +140,10 @@ class ValgrindPlugin(Magics):
                 for d in l:
                     lines.append(int(d))
             elif 'bargraph' in l:
-                lines = []
+                bargraph = []
                 l = l.replace('bargraph=','').replace('(','').replace(')','').split(',')
                 for d in l:
-                    lines.append(d)
+                    bargraph.append(d)
 
         print(datacache, ways, lines, bargraph)        
 
@@ -143,7 +153,12 @@ class ValgrindPlugin(Magics):
             f.write(cell)
         try:
             self.run_cpp(file_path)
-            #self.executeValgrind(args, print_file)
+            results = []
+            for i in range(len(datacache)):
+                for j in range(len(ways)):
+                    for k in range(len(lines)):
+                        args = [datacache[i], ways[j], lines[k]]
+                        self.exec_range_cache(args)
 
         except subprocess.CalledProcessError as e:
             helper.print_out(e.output.decode("utf8"))
