@@ -213,11 +213,9 @@ class ValgrindPlugin(Magics):
             if b.name == 'exec':
                 b.button_style = 'danger'
                 b.description = 'wait'
-                # method
+                print("\n")
                 exec = "--D1=%d,%d,%d" %(size*1024,assoc,lines)
                 self.executeValgrind([exec],True)
-                print(exec)
-                print("simulation")
                 b.button_style = 'success'
                 b.description = "Start Simulate"
 
