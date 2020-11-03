@@ -281,6 +281,6 @@ class ValgrindPlugin(Magics):
             f.write(cell)
         try:
             self.run_cpp(file_path)
-            self.create_visual(file_path)
+            self.create_visual()
         except subprocess.CalledProcessError as e:
             helper.print_out(e.output.decode("utf8"))
