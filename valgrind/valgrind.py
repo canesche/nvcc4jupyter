@@ -214,11 +214,12 @@ class ValgrindPlugin(Magics):
                 b.button_style = 'danger'
                 b.description = 'wait'
                 exec = "--D1=%d,%d,%d" %(size*1024,assoc,lines)
+                print("Parameters: %d, %d, %d" %(size*1024,assoc,lines))
                 try:
                     self.executeValgrind([exec],True)
                 except:
                     print("invalid parameters!")
-                print("--" * 40) 
+                print("--" * 30) 
                 b.button_style = 'success'
                 b.description = "Start Simulate"
 
