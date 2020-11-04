@@ -216,7 +216,7 @@ class ValgrindPlugin(Magics):
                 print("\n")
                 exec = "--D1=%d,%d,%d" %(size*1024,assoc,lines)
                 self.executeValgrind([exec],True)
-                print("--" * 8) 
+                print("--" * 80) 
                 b.button_style = 'success'
                 b.description = "Start Simulate"
 
@@ -242,7 +242,7 @@ class ValgrindPlugin(Magics):
             btn.on_click(on_button_clicked)
             return btn
 
-        # create a 10x2 grid layout
+        # create grid layout
         grid = GridspecLayout(4, 10)
         grid[0,0] = create_Text("Data Cache", "warning")
         grid[1,0] = create_Text("Size (kB)", "warning")
@@ -251,11 +251,11 @@ class ValgrindPlugin(Magics):
             opt.append(2**i)
         grid[1,1] = create_Dropdown("size", options=opt, value=1)
         grid[2,0] = create_Text("Associative", "warning")
-        grid[2,1] = create_Dropdown("assoc", options=opt[:5], value=2)
+        grid[2,1] = create_Dropdown("assoc", options=opt[:6], value=2)
         grid[3,0] = create_Text("Line (Bytes)", "warning")
         opt = []
-        for i in range(1,5):
-            opt.append(32*i)
+        for i in range(0,3):
+            opt.append(32*(2**i))
         grid[3,1] = create_Dropdown("lines", options=opt, value=32)
 
         grid_exec = GridspecLayout(1, 5)
