@@ -214,7 +214,7 @@ class ValgrindPlugin(Magics):
                 b.button_style = 'danger'
                 b.description = 'wait'
                 exec = "--D1=%d,%d,%d" %(size*1024,assoc,lines)
-                print("Parameters: %d, %d, %d" %(size*1024,assoc,lines))
+                print("Parameters: %d, %d, %d\n" %(size*1024,assoc,lines))
                 try:
                     self.executeValgrind([exec],True)
                 except:
