@@ -214,7 +214,6 @@ class ValgrindPlugin(Magics):
             if b.name == 'exec':
                 b.button_style = 'danger'
                 b.description = 'wait'
-                print(cache)
                 if cache == 'data':
                     exec = "--D1=%d,%d,%d" %(size*1024,assoc,lines)
                 elif cache == 'inst':
