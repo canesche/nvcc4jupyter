@@ -257,6 +257,7 @@ class ValgrindPlugin(Magics):
         elif cache == 'inst':
             grid[0,0] = create_Text("Instruction Cache", "warning")
         display(grid)
+
         grid = GridspecLayout(3, 10)
         grid[0,0] = create_Text("Size (kB)", "warning")
         opt = []
@@ -269,7 +270,7 @@ class ValgrindPlugin(Magics):
         opt = []
         for i in range(0,3):
             opt.append(32*(2**i))
-        grid[3,1] = create_Dropdown("lines", options=opt, value=32)
+        grid[2,1] = create_Dropdown("lines", options=opt, value=32)
 
         grid_exec = GridspecLayout(1, 5)
         grid_exec[0,0] = create_button("exec", "Start Execution", "success")
