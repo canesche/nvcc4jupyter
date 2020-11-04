@@ -203,9 +203,9 @@ class ValgrindPlugin(Magics):
         except subprocess.CalledProcessError as e:
             helper.print_out(e.output.decode("utf8"))
     
-    size, assoc, lines = 0, 0, 0
+    size, assoc, lines, cache = 0, 0, 0, ''
     def create_visual(self, cache):
-        global size, assoc, lines
+        global size, assoc, lines, cache
         size, assoc, lines = 1, 2, 32
 
         def on_button_clicked(b):
@@ -302,6 +302,7 @@ class ValgrindPlugin(Magics):
             f.write(cell)
         try:
             self.run_cpp(file_path)
-            self.create_visual('inst')
+            cache = 'inst'
+            self.create_visual(cache)
         except subprocess.CalledProcessError as e:
             helper.print_out(e.output.decode("utf8"))
