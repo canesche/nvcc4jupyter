@@ -204,16 +204,20 @@ class ValgrindPlugin(Magics):
             helper.print_out(e.output.decode("utf8"))
     
     size, assoc, lines = 0, 0, 0
-    def create_visual(self):
+    def create_visual(self, cache):
         global size, assoc, lines
         size, assoc, lines = 1, 2, 32
 
         def on_button_clicked(b):
-            global size, assoc, lines
+            global size, assoc, lines, cache
             if b.name == 'exec':
                 b.button_style = 'danger'
                 b.description = 'wait'
-                exec = "--D1=%d,%d,%d" %(size*1024,assoc,lines)
+                print(cache)
+                if cache == 'data':
+                    exec = "--D1=%d,%d,%d" %(size*1024,assoc,lines)
+                elif cache == 'inst':
+                    exec = "--I1=%d,%d,%d" %(size*1024,assoc,lines)
                 print("Parameters: %d, %d, %d\n" %(size*1024,assoc,lines))
                 try:
                     self.executeValgrind([exec],True)
@@ -247,7 +251,10 @@ class ValgrindPlugin(Magics):
 
         # create grid layout
         grid = GridspecLayout(4, 10)
-        grid[0,0] = create_Text("Data Cache", "warning")
+        if cache == 'data':
+            grid[0,0] = create_Text("Data Cache", "warning")
+        elif cache == 'inst':
+            grid[0,0] = create_Text("Instruction Cache", "warning")
         grid[1,0] = create_Text("Size (kB)", "warning")
         opt = []
         for i in range(0,11):
@@ -269,7 +276,6 @@ class ValgrindPlugin(Magics):
 
     @cell_magic
     def datacache(self, line, cell):
-
         if not self.already_install:
             self.already_install = True
             self.updateInstall()
@@ -280,6 +286,22 @@ class ValgrindPlugin(Magics):
             f.write(cell)
         try:
             self.run_cpp(file_path)
-            self.create_visual()
+            self.create_visual('data')
+        except subprocess.CalledProcessError as e:
+            helper.print_out(e.output.decode("utf8"))
+    
+    @cell_magic
+    def instructioncache(self, line, cell):
+        if not self.already_install:
+            self.already_install = True
+            self.updateInstall()
+        
+        file_path = '/content/valgrind_code'
+
+        with open(file_path + ext, "w") as f:
+            f.write(cell)
+        try:
+            self.run_cpp(file_path)
+            self.create_visual('inst')
         except subprocess.CalledProcessError as e:
             helper.print_out(e.output.decode("utf8"))
