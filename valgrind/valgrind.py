@@ -251,19 +251,21 @@ class ValgrindPlugin(Magics):
             return btn
 
         # create grid layout
-        grid = GridspecLayout(4, 10)
+        grid = GridspecLayout(1, 5)
         if cache == 'data':
             grid[0,0] = create_Text("Data Cache", "warning")
         elif cache == 'inst':
             grid[0,0] = create_Text("Instruction Cache", "warning")
-        grid[1,0] = create_Text("Size (kB)", "warning")
+        display(grid)
+        grid = GridspecLayout(3, 10)
+        grid[0,0] = create_Text("Size (kB)", "warning")
         opt = []
         for i in range(0,11):
             opt.append(2**i)
-        grid[1,1] = create_Dropdown("size", options=opt, value=1)
-        grid[2,0] = create_Text("Associative", "warning")
-        grid[2,1] = create_Dropdown("assoc", options=opt[:6], value=2)
-        grid[3,0] = create_Text("Line (Bytes)", "warning")
+        grid[0,1] = create_Dropdown("size", options=opt, value=1)
+        grid[1,0] = create_Text("Associative", "warning")
+        grid[1,1] = create_Dropdown("assoc", options=opt[:6], value=2)
+        grid[2,0] = create_Text("Line (Bytes)", "warning")
         opt = []
         for i in range(0,3):
             opt.append(32*(2**i))
