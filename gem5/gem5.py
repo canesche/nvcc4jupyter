@@ -51,7 +51,8 @@ class Gem5Plugin(Magics):
                     helper.print_out(output.replace("\n\n","\n"))
 
     def output_gem5(self,data):
-        if len(data['stats']) > 1:
+        print(data['stats'])
+        if len(data['stats']) > 0:
             if 'all' in data['stats']:
                 arguments = ["cat", "/content/m5out/stats.txt"]
                 self.execution(arguments)
@@ -67,7 +68,7 @@ class Gem5Plugin(Magics):
 
         data = {"arch":"X86","cpu":"Simple","clk":1.0,"size_l1":16,"assoc_l1":2,"latency_l1":16,
                 "size_l2":256,"assoc_l2":8,"latency_l2":20,"memory":'DDR3_1600_8x8',
-                "binary":binary, "stats":stats}
+                "binary":binary, "stats": stats}
 
         def on_button_clicked(b):
             if b.name == 'simulate':
