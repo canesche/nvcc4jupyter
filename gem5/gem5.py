@@ -9,7 +9,7 @@ import ipywidgets as widgets
 from IPython.display import display
 from ipywidgets import *
 from common import helper
-from examples.simple import simple_gem5
+#from examples.simple import simple_gem5
 
 ext = '.py'
 
