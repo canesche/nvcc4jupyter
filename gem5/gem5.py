@@ -52,87 +52,85 @@ class Gem5Plugin(Magics):
 
     def view_scope(self):
 
+        data = {"arch":"X86","cpu":1.0,"size_l1":16,"assoc_l1":2,"latency_l1":16,
+                "size_l2":256,"assoc_l2":8,"latency_l2":20,"memory":'DDR3_1600_8x8'}
+
         def on_button_clicked(b):
-            print("Button clicked.", b.description)
+            if b.name == 'simulate':
+                b.button_style = 'danger'
+                b.description = 'wait'
+                try:
+                    # method
+                    print(data)
+                    print("simulation")
+                except:
+                    print("erro!")
+                b.button_style = 'success'
+                b.description = "Start Simulate"
 
         def on_value_change(change):
-            print(change['owner'].name)
+            if change['owner'].name in data:
+                data[change['owner'].name] = change['new']
 
-        def create_expanded_button(description, button_style=""):
-            btn = Button(description=description, button_style=button_style, layout=Layout(height='auto', width='auto'))
+        def create_Text(description="", button_style=""):
+            return Button(description=description, button_style=button_style, layout=Layout(height='auto', width='auto'))
+        def create_expanded_button(id, description="", button_style="", disabled=False):
+            btn = Button(description=description, button_style=button_style, layout=Layout(height='auto', width='auto'), disabled=disabled)
+            btn.name = id
             btn.on_click(on_button_clicked)
             return btn
-
-        def create_expanded_slider(id, description="", button_style="", min=1, max=10, value=1, step=1):
-            slider = IntSlider(description="", button_style=button_style, layout=Layout(height='auto', width='auto'), min=min, max=max, value=value, step=step)
-            slider.observe(on_value_change, names='value')
-            slider.name = id
-            return slider
-        def create_expanded_intText(description="", button_style="", min=1, max=10, value=1, step=1):
-            return BoundedIntText(description=description, button_style=button_style, layout=Layout(height='auto', width='auto'), min=min, max=max, value=value, step=step)
-        def create_expanded_floatText(description="", button_style="", min=1, max=10, value=1, step=1):
-            return BoundedFloatText(description=description, button_style=button_style, layout=Layout(height='auto', width='auto'), min=min, max=max, value=value, step=step)
-        def create_expanded_Select(description="", button_style="", value=0, options=[]):
-            return Select(description=description, button_style=button_style, layout=Layout(height='40px', width='auto'), value=value, options=options)
+        def create_Float(id, description="", button_style="", min=1, max=10, value=1, step=1):
+            floatText = BoundedFloatText(description=description, button_style=button_style, layout=Layout(height='auto', width='auto'), min=min, max=max, value=value, step=step)
+            floatText.name = id
+            floatText.observe(on_value_change, names='value')
+            return floatText
+        def create_Dropdown(id, description="", disabled=False, options=[], value='1'):
+            dropdown = Dropdown(description=description, layout=Layout(height='30px', width='auto'), value=value, options=options, disabled=disabled)
+            dropdown.name = id
+            dropdown.observe(on_value_change, names='value')
+            return dropdown
 
         # create a 10x2 grid layout
         grid = GridspecLayout(2, 10)
         # fill it in with widgets
-        grid[0, 0] = create_expanded_button("Architecture", "warning")
-        grid[0, 1] = create_expanded_button("X86")
-        grid[0, 2] = create_expanded_button("RiscV")
-        grid[0, 3] = create_expanded_button("Arm")
-        grid[1, 0] = create_expanded_button("CPU", "warning")
-        grid[1, 1] = create_expanded_button("Simple")
-        grid[1, 2] = create_expanded_button("In Order")
-        grid[1, 3] = create_expanded_button("Out Order")
+        grid[0, 0] = create_Text("Architecture", "warning")
+        grid[0, 1] = create_Dropdown("arch", options=["X86","RISCV","ARM"], value="X86")
+        grid[1, 0] = create_Text("CPU", "warning")
+        grid[1, 1] = create_Dropdown("cpu", options=["Simple","In Order","Out Order"], value="Simple")
 
         gridclock = GridspecLayout(1, 10)
-        gridclock[0,0] = create_expanded_button("Clock (GHz)", "warning")
-        gridclock[0,1] = create_expanded_floatText(value=2.0, min=0.1, max=5.0, step=1)
+        gridclock[0,0] = create_Text("Clock (GHz)", "warning")
+        gridclock[0,1] = create_Float("clk", value=1.0, min=0.2, max=5.0, step=0.1)
 
-        gridCache = GridspecLayout(2, 10)
-        gridCache[0,0] = create_expanded_button("Cache", "warning")
-        gridCache[0,1] = create_expanded_button("Size (kB)", "warning")
-        gridCache[0,2] = create_expanded_button("Associative", "warning")
-        #gridCache[0,3] = create_expanded_button("tag_latency", "warning")
-        gridCache[0,3] = create_expanded_button("data_latency", "warning")
-        #gridCache[0,4] = create_expanded_button("resp_latency", "warning")
-        gridCache[0,4] = create_expanded_button("mshrs", "warning")
-        gridCache[0,5] = create_expanded_button("tgts_per_mshr", "warning")
-        gridCache[1,0] = create_expanded_button("L1Cache", "warning")
-        gridCache[1,1] = create_expanded_intText(value=16, max=2048, step=2)
-        gridCache[1,2] = create_expanded_slider("assoc", value=2, min=2, max=10, step=2)
-        #gridCache[1,3] = create_expanded_slider(value=2)
-        gridCache[1,3] = create_expanded_slider("data_latency", value=2)
-        #gridCache[1,4] = create_expanded_slider(value=2)
-        gridCache[1,4] = create_expanded_slider("mshrs", value=4)
-        gridCache[1,5] = create_expanded_slider("tgts_per_mshr", value=20, min=10, max=50)
+        opts = []
+        for i in range(1,20):
+            opts.append(2**i)
 
-        gridCacheL2 = GridspecLayout(1, 10)
-
-        gridCacheL2[0,0] = create_expanded_button("L2Cache", "warning")
-        gridCacheL2[0,1] = create_expanded_floatText(value=256, max=2048, step=2)
-        gridCacheL2[0,2] = create_expanded_slider("", value=8)
-        #gridCacheL2[0,3] = create_expanded_slider(value=20, max=40)
-        gridCacheL2[0,3] = create_expanded_slider("", value=20, max=40)
-        #gridCacheL2[0,4] = create_expanded_slider(value=20, max=40)
-        gridCacheL2[0,4] = create_expanded_slider("", value=20, max=40)
-        gridCacheL2[0,5] = create_expanded_slider("", value=12, min=10, max=50)
+        gridCache = GridspecLayout(3, 10)
+        gridCache[0,0] = create_Text("Cache", "warning")
+        gridCache[0,1] = create_Text("Size (kB)", "warning")
+        gridCache[0,2] = create_Text("Associative", "warning")
+        gridCache[0,3] = create_Text("data_latency", "warning")
+        gridCache[1,0] = create_Text("L1Cache", "warning")
+        gridCache[1,1] = create_Dropdown("size_l1", options=opts[3:10], value=16)
+        gridCache[1,2] = create_Dropdown("assoc_l1", options=opts[:5], value=2)
+        gridCache[1,3] = create_Dropdown("latency_l1", options=range(14,28), value=16)
+        gridCache[2,0] = create_Text("L2Cache", "warning")
+        gridCache[2,1] = create_Dropdown("size_l2", options=opts[6:15], value=256)
+        gridCache[2,2] = create_Dropdown("assoc_l2", options=opts[2:10], value=8)
+        gridCache[2,3] = create_Dropdown("latency_l2", options=range(20,41), value=20)
 
         gridMemory = GridspecLayout(1, 10)
-        gridMemory[0,0] = create_expanded_button("Memory", "warning")
-        gridMemory[0,1] = create_expanded_Select("", options=['DDR3_1600_8x8','DDR4_2400_8x8'], value='DDR3_1600_8x8')
+        gridMemory[0,0] = create_Text("Memory", "warning")
+        gridMemory[0,1] = create_Dropdown("memory", options=['DDR3_1600_8x8','DDR4_2400_8x8'], value='DDR3_1600_8x8')
 
-        gridSim = GridspecLayout(1, 10)
-        #danger = vermelho
-        gridSim[0,0] = create_expanded_button("Start Simulate", "success")
+        gridSim = GridspecLayout(1, 5)
+        gridSim[0,0] = create_expanded_button("simulate", "Start Simulate", "success")
 
         display(grid)
         display(gridclock)
         print("")
         display(gridCache)
-        display(gridCacheL2)
         print("")
         display(gridMemory)
         print("")
