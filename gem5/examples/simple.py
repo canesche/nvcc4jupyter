@@ -11,7 +11,7 @@ def simple_gem5(data):
 
 	# Set the clock fequency of the system (and all of its children)
 	s += "system.clk_domain = SrcClockDomain()\n"
-	s += "system.clk_domain.clock = '%.0fGHz'\n" %(data['clk'])
+	s += "system.clk_domain.clock = '%.1fGHz'\n" %(data['clk'])
 	s += "system.clk_domain.voltage_domain = VoltageDomain()\n"
 
 	# Set up the system

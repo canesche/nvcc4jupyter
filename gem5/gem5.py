@@ -80,7 +80,7 @@ class Gem5Plugin(Magics):
                 simple_gem5(data)
                 arguments = ["sh", "/content/nvcc4jupyter/gem5/execute.sh", data['arch'], '/content/gem5_code.py']
                 self.execution(arguments)
-                self.output_gem5(data)
+                #self.output_gem5(data)
                 #except:
                 #    print("erro!")
                 b.button_style = 'success'
