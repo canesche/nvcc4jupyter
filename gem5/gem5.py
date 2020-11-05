@@ -9,6 +9,7 @@ import ipywidgets as widgets
 from IPython.display import display
 from ipywidgets import *
 from common import helper
+from examples.simple import simple_gem5
 
 ext = '.py'
 
@@ -50,7 +51,7 @@ class Gem5Plugin(Magics):
                     output = output.decode('utf8')
                     helper.print_out(output.replace("\n\n","\n"))
 
-    def view_scope(self):
+    def view_scope(self, with_cache=False):
 
         data = {"arch":"X86","cpu":1.0,"size_l1":16,"assoc_l1":2,"latency_l1":16,
                 "size_l2":256,"assoc_l2":8,"latency_l2":20,"memory":'DDR3_1600_8x8'}
@@ -106,19 +107,20 @@ class Gem5Plugin(Magics):
         for i in range(1,20):
             opts.append(2**i)
 
-        gridCache = GridspecLayout(3, 10)
-        gridCache[0,0] = create_Text("Cache", "warning")
-        gridCache[0,1] = create_Text("Size (kB)", "warning")
-        gridCache[0,2] = create_Text("Associative", "warning")
-        gridCache[0,3] = create_Text("data_latency", "warning")
-        gridCache[1,0] = create_Text("L1Cache", "warning")
-        gridCache[1,1] = create_Dropdown("size_l1", options=opts[3:10], value=16)
-        gridCache[1,2] = create_Dropdown("assoc_l1", options=opts[:5], value=2)
-        gridCache[1,3] = create_Dropdown("latency_l1", options=range(14,28), value=16)
-        gridCache[2,0] = create_Text("L2Cache", "warning")
-        gridCache[2,1] = create_Dropdown("size_l2", options=opts[6:15], value=256)
-        gridCache[2,2] = create_Dropdown("assoc_l2", options=opts[2:10], value=8)
-        gridCache[2,3] = create_Dropdown("latency_l2", options=range(20,41), value=20)
+        if with_cache:
+            gridCache = GridspecLayout(3, 10)
+            gridCache[0,0] = create_Text("Cache", "warning")
+            gridCache[0,1] = create_Text("Size (kB)", "warning")
+            gridCache[0,2] = create_Text("Associative", "warning")
+            gridCache[0,3] = create_Text("data_latency", "warning")
+            gridCache[1,0] = create_Text("L1Cache", "warning")
+            gridCache[1,1] = create_Dropdown("size_l1", options=opts[3:10], value=16)
+            gridCache[1,2] = create_Dropdown("assoc_l1", options=opts[:5], value=2)
+            gridCache[1,3] = create_Dropdown("latency_l1", options=range(14,28), value=16)
+            gridCache[2,0] = create_Text("L2Cache", "warning")
+            gridCache[2,1] = create_Dropdown("size_l2", options=opts[6:15], value=256)
+            gridCache[2,2] = create_Dropdown("assoc_l2", options=opts[2:10], value=8)
+            gridCache[2,3] = create_Dropdown("latency_l2", options=range(20,41), value=20)
 
         gridMemory = GridspecLayout(1, 10)
         gridMemory[0,0] = create_Text("Memory", "warning")
@@ -129,8 +131,9 @@ class Gem5Plugin(Magics):
 
         display(grid)
         display(gridclock)
-        print("")
-        display(gridCache)
+        if with_cache:
+            print("")
+            display(gridCache)
         print("")
         display(gridMemory)
         print("")
@@ -139,10 +142,6 @@ class Gem5Plugin(Magics):
     @cell_magic
     def gem5(self, line, cell):
         args = line.split()
-        
-        if 'visual' in line:
-            self.view_scope()
-            return
 
         file_path = '/content/gem5_code'
 
@@ -152,3 +151,45 @@ class Gem5Plugin(Magics):
             self.run_gem5(file_path, args)
         except subprocess.CalledProcessError as e:
             helper.print_out(e.output.decode("utf8"))
+
+    @cell_magic
+    def gem5_visual_simple(self, line, cell):
+
+        path_binary = []
+        statistics = []
+
+        for l in cell.strip().split("\n"):
+            l = l.split("#")[0]
+            if l == '':
+                continue
+            if 'path_binary' not in l:
+                s = l.replace('=', '+=[') + ']'
+                exec(s)
+            else:
+                exec(l.replace('=', '+='))
+        
+        print(path_binary)
+        print(statistics)
+
+        self.view_scope(with_cache=False)
+    
+    @cell_magic
+    def gem5_visual_cache(self, line, cell):
+
+        path_binary = []
+        statistics = []
+
+        for l in cell.strip().split("\n"):
+            l = l.split("#")[0]
+            if l == '':
+                continue
+            if 'path_binary' not in l:
+                s = l.replace('=', '+=[') + ']'
+                exec(s)
+            else:
+                exec(l.replace('=', '+='))
+        
+        print(path_binary)
+        print(statistics)
+
+        self.view_scope(with_cache=True)
