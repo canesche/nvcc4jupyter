@@ -73,16 +73,16 @@ class Gem5Plugin(Magics):
             if b.name == 'simulate':
                 b.button_style = 'danger'
                 b.description = 'wait'
-                #try:
-                import sys
-                sys.path.insert(0,'.')
-                from nvcc4jupyter.gem5.examples.simple import simple_gem5
-                simple_gem5(data)
-                arguments = ["sh", "/content/nvcc4jupyter/gem5/execute.sh", data['arch'], '/content/gem5_code.py']
-                self.execution(arguments)
-                #self.output_gem5(data)
-                #except:
-                #    print("erro!")
+                try:
+                    import sys
+                    sys.path.insert(0,'.')
+                    from nvcc4jupyter.gem5.examples.simple import simple_gem5
+                    simple_gem5(data)
+                    arguments = ["sh", "/content/nvcc4jupyter/gem5/execute.sh", data['arch'], '/content/gem5_code.py']
+                    self.execution(arguments)
+                    self.output_gem5(data)
+                except:
+                    print("erro!")
                 b.button_style = 'success'
                 b.description = "Start Simulate"
 
