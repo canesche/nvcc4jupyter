@@ -186,7 +186,7 @@ class Gem5Plugin(Magics):
             else:
                 exec(l.replace('=', '+='))
 
-        self.view_scope(with_cache=False, binary=path_binary[0])
+        self.view_scope(with_cache=False, binary=path_binary[0], stats=statistics)
     
     @cell_magic
     def gem5_visual_cache(self, line, cell):
