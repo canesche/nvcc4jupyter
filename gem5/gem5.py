@@ -168,8 +168,8 @@ class Gem5Plugin(Magics):
             else:
                 exec(l.replace('=', '+='))
         
-        print(path_binary[0])
-        print(statistics[0])
+        print(path_binary)
+        print(statistics)
 
         self.view_scope(with_cache=False)
     
