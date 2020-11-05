@@ -64,6 +64,8 @@ class Gem5Plugin(Magics):
                     sys.path.insert(0,'.')
                     from nvcc4jupyter.gem5.examples.simple import simple_gem5
                     simple_gem5(data)
+                    arguments = ["sh", "/content/nvcc4jupyter/gem5/execute.sh", data['arch'], '/content/gem5_code.py']
+                    self.execution(arguments)
                     print(data)
                     print("simulation")
                 except:
