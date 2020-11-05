@@ -140,7 +140,7 @@ class Gem5Plugin(Magics):
 
         gridMemory = GridspecLayout(1, 10)
         gridMemory[0,0] = create_Text("Memory", "warning")
-        gridMemory[0,1] = create_Dropdown("memory", options=['DDR3_1600_8x8','DDR4_2400_8x8'], value='DDR3_1600_8x8')
+        gridMemory[0,1] = create_Dropdown("memory", options=['DDR3_1600','DDR4_2400'], value='DDR3_1600')
 
         gridSim = GridspecLayout(1, 5)
         gridSim[0,0] = create_expanded_button("simulate", "Start Simulate", "success")

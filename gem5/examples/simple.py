@@ -45,7 +45,7 @@ def simple_gem5(data):
 
 	# Create a DDR3 memory controller and connect it to the membus
 	s += "system.mem_ctrl = MemCtrl()\n"
-	s += "system.mem_ctrl.dram = %s()\n" %(data['memory'])
+	s += "system.mem_ctrl.dram = %s_8x8()\n" %(data['memory'])
 	s += "system.mem_ctrl.dram.range = system.mem_ranges[0]\n"
 	s += "system.mem_ctrl.port = system.membus.mem_side_ports\n"
 
