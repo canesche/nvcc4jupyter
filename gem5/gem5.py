@@ -51,7 +51,6 @@ class Gem5Plugin(Magics):
                     helper.print_out(output.replace("\n\n","\n"))
 
     def output_gem5(self,data):
-
         if len(data['stats']) > 1:
             if 'all' in data['stats']:
                 arguments = ["cat", "/content/m5out/stats.txt"]
@@ -81,7 +80,7 @@ class Gem5Plugin(Magics):
                     simple_gem5(data)
                     arguments = ["sh", "/content/nvcc4jupyter/gem5/execute.sh", data['arch'], '/content/gem5_code.py']
                     self.execution(arguments)
-                    output_gem5(data)
+                    self.output_gem5(data)
                 except:
                     print("erro!")
                 b.button_style = 'success'
