@@ -9,7 +9,6 @@ import ipywidgets as widgets
 from IPython.display import display
 from ipywidgets import *
 from common import helper
-#from examples.simple import simple_gem5
 
 ext = '.py'
 
@@ -53,7 +52,7 @@ class Gem5Plugin(Magics):
 
     def view_scope(self, with_cache=False):
 
-        data = {"arch":"X86","cpu":1.0,"size_l1":16,"assoc_l1":2,"latency_l1":16,
+        data = {"arch":"X86","cpu":"Simple","clk":1.0,"size_l1":16,"assoc_l1":2,"latency_l1":16,
                 "size_l2":256,"assoc_l2":8,"latency_l2":20,"memory":'DDR3_1600_8x8'}
 
         def on_button_clicked(b):
@@ -61,7 +60,10 @@ class Gem5Plugin(Magics):
                 b.button_style = 'danger'
                 b.description = 'wait'
                 try:
-                    # method
+                    import sys
+                    sys.path.insert(0,'.')
+                    from nvcc4jupyter.gem5.examples.simple import simple_gem5
+                    simple_gem5(data)
                     print(data)
                     print("simulation")
                 except:
