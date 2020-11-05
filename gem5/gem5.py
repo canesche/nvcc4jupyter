@@ -110,7 +110,7 @@ class Gem5Plugin(Magics):
             return dropdown
 
         # create a 10x2 grid layout
-        grid = GridspecLayout(2, 10)
+        grid = GridspecLayout(1, 10)
         # fill it in with widgets
         grid[0,0] = create_Text("Architecture", "warning")
         grid[0,1] = create_Dropdown("arch", options=["X86","RISCV","ARM"], value="X86")
