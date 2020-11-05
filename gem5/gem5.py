@@ -50,10 +50,25 @@ class Gem5Plugin(Magics):
                     output = output.decode('utf8')
                     helper.print_out(output.replace("\n\n","\n"))
 
-    def view_scope(self, with_cache=False):
+    def output_gem5(self,data):
+
+        if len(data['stats']) > 1:
+            if 'all' in data['stats']:
+                arguments = ["cat", "/content/m5out/stats.txt"]
+                self.execution(arguments)
+            else:
+                print("---------- Begin Simulation Statistics ----------")
+                for s in data['stats']:
+                    arguments = ["sh", "/content/nvcc4jupyter/gem5/statistic.sh", s]
+                    output = subprocess.check_output(data['stats'], stderr=subprocess.STDOUT)
+                    output = output.decode('utf8')
+                    helper.print_out(output.replace("\n\n","\n"))
+
+    def view_scope(self, with_cache=False, binary="", stats=[]):
 
         data = {"arch":"X86","cpu":"Simple","clk":1.0,"size_l1":16,"assoc_l1":2,"latency_l1":16,
-                "size_l2":256,"assoc_l2":8,"latency_l2":20,"memory":'DDR3_1600_8x8'}
+                "size_l2":256,"assoc_l2":8,"latency_l2":20,"memory":'DDR3_1600_8x8',
+                "binary":binary, "stats":stats}
 
         def on_button_clicked(b):
             if b.name == 'simulate':
@@ -66,8 +81,7 @@ class Gem5Plugin(Magics):
                     simple_gem5(data)
                     arguments = ["sh", "/content/nvcc4jupyter/gem5/execute.sh", data['arch'], '/content/gem5_code.py']
                     self.execution(arguments)
-                    print(data)
-                    print("simulation")
+                    output_gem5(data)
                 except:
                     print("erro!")
                 b.button_style = 'success'
@@ -175,7 +189,7 @@ class Gem5Plugin(Magics):
         print(path_binary)
         print(statistics)
 
-        self.view_scope(with_cache=False)
+        self.view_scope(with_cache=False, binary=path_binary[0])
     
     @cell_magic
     def gem5_visual_cache(self, line, cell):
@@ -194,6 +208,6 @@ class Gem5Plugin(Magics):
                 exec(l.replace('=', '+='))
         
         print(path_binary)
-        print(statistics)
+        print()
 
-        self.view_scope(with_cache=True)
+        self.view_scope(with_cache=True, binary=path_binary[0], stats=statistics)
