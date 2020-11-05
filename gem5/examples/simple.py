@@ -25,8 +25,8 @@ def simple_gem5(data):
 	s += "system.membus = SystemXBar()\n"
 
 	# Hook the CPU ports up to the membus
-	s += "system.cpu.icache_port = system.membus.slave\n"
-	s += "system.cpu.dcache_port = system.membus.slave\n"
+	s += "system.cpu.icache_port = system.membus.cpu_side_ports\n"
+	s += "system.cpu.dcache_port = system.membus.cpu_side_ports\n"
 
 	# create the interrupt controller for the CPU and connect to the membus
 	s += "system.cpu.createInterruptController()\n"
@@ -34,18 +34,18 @@ def simple_gem5(data):
 	# For x86 only, make sure the interrupts are connected to the memory
 	# Note: these are directly connected to the memory bus and are not cached
 	s += "if m5.defines.buildEnv['TARGET_ISA'] == \"x86\":\n"
-	s += "    system.cpu.interrupts[0].pio = system.membus.master\n"
-	s += "    system.cpu.interrupts[0].int_master = system.membus.slave\n"
-	s += "    system.cpu.interrupts[0].int_slave = system.membus.master\n"
+	s += "    system.cpu.interrupts[0].pio = system.membus.mem_side_ports\n"
+	s += "    system.cpu.interrupts[0].int_requestor = system.membus.cpu_side_ports\n"
+	s += "    system.cpu.interrupts[0].int_responder = system.membus.mem_side_ports\n"
 
 	# Create a DDR3 memory controller and connect it to the membus
 	s += "system.mem_ctrl = MemCtrl()\n"
 	s += "system.mem_ctrl.dram = %s()\n" %(data['memory'])
 	s += "system.mem_ctrl.dram.range = system.mem_ranges[0]\n"
-	s += "system.mem_ctrl.port = system.membus.master\n"
+	s += "system.mem_ctrl.port = system.membus.mem_side_ports\n"
 
 	# Connect the system up to the membus
-	s += "system.system_port = system.membus.slave\n"
+	s += "system.system_port = system.membus.cpu_side_ports\n"
 
 	# get ISA for the binary to run.
 	s += "isa = str(m5.defines.buildEnv['TARGET_ISA']).lower()\n"
