@@ -11,7 +11,7 @@ def simple_gem5(data):
 
 	# Set the clock fequency of the system (and all of its children)
 	s += "system.clk_domain = SrcClockDomain()\n"
-	s += "system.clk_domain.clock = '%fGHz'\n" %(data['clk'])
+	s += "system.clk_domain.clock = '%.1fGHz'\n" %(data['clk'])
 	s += "system.clk_domain.voltage_domain = VoltageDomain()\n"
 
 	# Set up the system
@@ -52,7 +52,7 @@ def simple_gem5(data):
 
 	# Default to running 'hello', use the compiled ISA to find the binary
 	# grab the specific path to the binary
-	s += "binary = os.path.join(%s)\n" %data['binary']
+	s += "binary = os.path.join('%s')\n" %data['binary']
 
 	# Create a process for a simple "Hello World" application
 	s += "process = Process()\n"
