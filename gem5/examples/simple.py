@@ -19,7 +19,12 @@ def simple_gem5(data):
 	s += "system.mem_ranges = [AddrRange('512MB')]\n"
 
 	# Create a simple CPU
-	s += "system.cpu = TimingSimpleCPU()\n"
+	if data['cpu'] == 'Simple':
+		s += "system.cpu = TimingSimpleCPU()\n"
+	elif data['cpu'] == 'Out Order':
+		s += "system.cpu = O3CPU()\n"
+	elif data['cpu'] == 'In Order':
+		s += "system.cpu = O3CPU()\n" 
 
 	# Create a memory bus, a system crossbar, in this case
 	s += "system.membus = SystemXBar()\n"

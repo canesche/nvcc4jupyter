@@ -112,14 +112,12 @@ class Gem5Plugin(Magics):
         # create a 10x2 grid layout
         grid = GridspecLayout(2, 10)
         # fill it in with widgets
-        grid[0, 0] = create_Text("Architecture", "warning")
-        grid[0, 1] = create_Dropdown("arch", options=["X86","RISCV","ARM"], value="X86")
-        grid[1, 0] = create_Text("CPU", "warning")
-        grid[1, 1] = create_Dropdown("cpu", options=["Simple","In Order","Out Order"], value="Simple")
-
-        gridclock = GridspecLayout(1, 10)
-        gridclock[0,0] = create_Text("Clock (GHz)", "warning")
-        gridclock[0,1] = create_Float("clk", value=1.0, min=0.2, max=5.0, step=0.1)
+        grid[0,0] = create_Text("Architecture", "warning")
+        grid[0,1] = create_Dropdown("arch", options=["X86","RISCV","ARM"], value="X86")
+        grid[0,2] = create_Text("CPU", "warning")
+        grid[0,3] = create_Dropdown("cpu", options=["Simple","In Order","Out Order"], value="Simple")
+        grid[0,4] = create_Text("Clock (GHz)", "warning")
+        grid[0,5] = create_Float("clk", value=1.0, min=0.2, max=5.0, step=0.1)
 
         opts = []
         for i in range(1,20):
@@ -148,7 +146,6 @@ class Gem5Plugin(Magics):
         gridSim[0,0] = create_expanded_button("simulate", "Start Simulate", "success")
 
         display(grid)
-        display(gridclock)
         if with_cache:
             print("")
             display(gridCache)
