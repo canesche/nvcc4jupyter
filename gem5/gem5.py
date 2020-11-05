@@ -147,11 +147,8 @@ class Gem5Plugin(Magics):
 
         display(grid)
         if with_cache:
-            print("")
             display(gridCache)
-        print("")
         display(gridMemory)
-        print("")
         display(gridSim)
     
     @cell_magic
