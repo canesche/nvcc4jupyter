@@ -116,14 +116,16 @@ class Gem5Plugin(Magics):
             return dropdown
 
         # create a 10x2 grid layout
-        grid = GridspecLayout(1, 10)
+        grid = GridspecLayout(2, 10)
         # fill it in with widgets
         grid[0,0] = create_Text("Architecture", "warning")
         grid[0,1] = create_Dropdown("arch", options=["X86","RISCV","ARM"], value="X86")
         grid[0,2] = create_Text("CPU", "warning")
         grid[0,3] = create_Dropdown("cpu", options=["Simple","In Order","Out Order"], value="Simple")
-        grid[0,4] = create_Text("Clock (GHz)", "warning")
-        grid[0,5] = create_Float("clk", value=1.0, min=0.2, max=5.0, step=0.1)
+        grid[1,0] = create_Text("Clock (GHz)", "warning")
+        grid[1,1] = create_Float("clk", value=1.0, min=0.2, max=5.0, step=0.1)
+        grid[1,2] = create_Text("Memory", "warning")
+        grid[1,3] = create_Dropdown("memory", options=['DDR3_1600','DDR4_2400'], value='DDR3_1600')
 
         opts = []
         for i in range(1,20):
@@ -144,17 +146,12 @@ class Gem5Plugin(Magics):
             gridCache[2,2] = create_Dropdown("assoc_l2", options=opts[2:10], value=8)
             gridCache[2,3] = create_Dropdown("latency_l2", options=range(20,41), value=20)
 
-        gridMemory = GridspecLayout(1, 10)
-        gridMemory[0,0] = create_Text("Memory", "warning")
-        gridMemory[0,1] = create_Dropdown("memory", options=['DDR3_1600','DDR4_2400'], value='DDR3_1600')
-
         gridSim = GridspecLayout(1, 5)
         gridSim[0,0] = create_expanded_button("simulate", "Start Simulate", "success")
 
         display(grid)
         if with_cache:
             display(gridCache)
-        display(gridMemory)
         display(gridSim)
     
     @cell_magic
