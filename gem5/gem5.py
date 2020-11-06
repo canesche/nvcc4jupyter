@@ -71,23 +71,23 @@ class Gem5Plugin(Magics):
 
         def on_button_clicked(b):
             global bool_with_cache
-            if b.name == 'simulate':
+            if b.name == 'simulate' and b.description != 'wait':
                 b.button_style = 'danger'
                 b.description = 'wait'
-                try:
-                    import sys
-                    sys.path.insert(0,'.')
-                    if bool_with_cache:
-                        from nvcc4jupyter.gem5.examples.two_level import cache_gem5
-                        cache_gem5(data)
-                    else:
-                        from nvcc4jupyter.gem5.examples.simple import simple_gem5
-                        simple_gem5(data)
-                    arguments = ["sh", "/content/nvcc4jupyter/gem5/execute.sh", data['arch'], '/content/gem5_code.py']
-                    self.execution(arguments)
-                    self.output_gem5(data)
-                except:
-                    print("erro!")
+                #try:
+                import sys
+                sys.path.insert(0,'.')
+                if bool_with_cache:
+                    from nvcc4jupyter.gem5.examples.two_level import cache_gem5
+                    cache_gem5(data)
+                else:
+                    from nvcc4jupyter.gem5.examples.simple import simple_gem5
+                    simple_gem5(data)
+                arguments = ["sh", "/content/nvcc4jupyter/gem5/execute.sh", data['arch'], '/content/gem5_code.py']
+                self.execution(arguments)
+                self.output_gem5(data)
+                #except:
+                #print("erro!")
                 b.button_style = 'success'
                 b.description = "Start Simulate"
 
