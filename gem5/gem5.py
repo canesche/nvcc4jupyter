@@ -18,13 +18,16 @@ class Gem5Plugin(Magics):
     def __init__(self, shell):
         super(Gem5Plugin, self).__init__(shell)
         self.argparser = helper.get_argparser()
+        self.already_install = False
         #self.updateInstall()
     
     def updateInstall(self):
-        print("Install dependencies Gem5... ", end="")
+        print("Installing gem5 dependencies. Please wait... ", end="")
         args = ["sh", "/content/nvcc4jupyter/valgrind/update_install.sh"]
 
-        self.execution(args)
+        output = subprocess.check_output(args, stderr=subprocess.STDOUT)
+        output = output.decode('utf8')
+        #helper.print_out(output)
         print("done!")
     
     def execution(self, args):
@@ -156,6 +159,9 @@ class Gem5Plugin(Magics):
     
     @cell_magic
     def gem5(self, line, cell):
+        if not self.already_install:
+            self.already_install = True
+            self.updateInstall()
         args = line.split()
 
         file_path = '/content/gem5_code'
@@ -169,7 +175,9 @@ class Gem5Plugin(Magics):
 
     @cell_magic
     def gem5_visual_simple(self, line, cell):
-
+        if not self.already_install:
+            self.already_install = True
+            self.updateInstall()
         path_binary = []
         statistics = []
 
@@ -187,7 +195,9 @@ class Gem5Plugin(Magics):
     
     @cell_magic
     def gem5_visual_cache(self, line, cell):
-
+        if not self.already_install:
+            self.already_install = True
+            self.updateInstall()
         path_binary = []
         statistics = []
 
