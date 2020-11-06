@@ -14,7 +14,7 @@ def cache_gem5(data):
     s += "from nvcc4jupyter.gem5.examples import SimpleOpts\n"
 
     # Set the usage message to display
-    s += "SimpleOpts.set_usage(\"usage: %prog [options] <binary to execute>\")\n"
+    #s += "SimpleOpts.set_usage(\"usage: %prog [options] <binary to execute>\")\n"
 
     # Finalize the arguments and grab the opts so we can pass it on to our objects
     s += "(opts, args) = SimpleOpts.parse_args()\n"
@@ -28,11 +28,11 @@ def cache_gem5(data):
 
     # Check if there was a binary passed in via the command line and error if
     # there are too many arguments
-    s += "if len(args) == 1:\n"
-    s += "    binary = args[0]\n"
-    s += "elif len(args) > 1:\n"
-    s += "    SimpleOpts.print_help()\n"
-    s += "    m5.fatal(\"Expected a binary to execute as positional argument\")\n"
+    #s += "if len(args) == 1:\n"
+    #s += "    binary = args[0]\n"
+    #s += "elif len(args) > 1:\n"
+    #s += "    SimpleOpts.print_help()\n"
+    #s += "    m5.fatal(\"Expected a binary to execute as positional argument\")\n"
 
     # create the system we are going to simulate
     s += "system = System()\n"
