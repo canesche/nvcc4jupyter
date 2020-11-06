@@ -71,7 +71,7 @@ class Gem5Plugin(Magics):
 
         def on_button_clicked(b):
             global bool_with_cache
-            if b.name == 'simulate' and b.description != 'wait':
+            if b.name == 'simulate':
                 b.button_style = 'danger'
                 b.description = 'wait'
                 #try:
