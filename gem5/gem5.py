@@ -64,20 +64,25 @@ class Gem5Plugin(Magics):
                     helper.print_out(output.replace("\n\n","\n"))
 
     def view_scope(self, with_cache=False, binary="", stats=[]):
-
+        bool_with_cache = with_cache
         data = {"arch":"X86","cpu":"Simple","clk":1.0,"size_l1":16,"assoc_l1":2,"latency_l1":16,
                 "size_l2":256,"assoc_l2":8,"latency_l2":20,"memory":'DDR3_1600',
                 "binary":binary, "stats": stats}
 
         def on_button_clicked(b):
+            global bool_with_cache
             if b.name == 'simulate':
                 b.button_style = 'danger'
                 b.description = 'wait'
                 try:
                     import sys
                     sys.path.insert(0,'.')
-                    from nvcc4jupyter.gem5.examples.simple import simple_gem5
-                    simple_gem5(data)
+                    if bool_with_cache:
+                        from nvcc4jupyter.gem5.examples.two_level import cache_gem5
+                        cache_gem5(data)
+                    else:
+                        from nvcc4jupyter.gem5.examples.simple import simple_gem5
+                        simple_gem5(data)
                     arguments = ["sh", "/content/nvcc4jupyter/gem5/execute.sh", data['arch'], '/content/gem5_code.py']
                     self.execution(arguments)
                     self.output_gem5(data)
