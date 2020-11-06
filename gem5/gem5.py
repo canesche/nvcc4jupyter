@@ -51,7 +51,6 @@ class Gem5Plugin(Magics):
                     helper.print_out(output.replace("\n\n","\n"))
 
     def output_gem5(self,data):
-        print(data['stats'])
         if len(data['stats']) > 0:
             if 'all' in data['stats']:
                 arguments = ["cat", "/content/m5out/stats.txt"]
