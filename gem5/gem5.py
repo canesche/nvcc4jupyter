@@ -195,7 +195,7 @@ class Gem5Plugin(Magics):
             l = l.split("#")[0]
             if l == '':
                 continue
-            if 'path_binary' not in l:
+            if 'statistics' not in l:
                 s = l.replace('=', '+=[') + ']'
                 exec(s)
             else:
