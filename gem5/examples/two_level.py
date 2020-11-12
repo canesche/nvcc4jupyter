@@ -24,7 +24,7 @@ def cache_gem5(data):
 
     # Default to running 'hello', use the compiled ISA to find the binary
     # grab the specific path to the binary
-    s += "binary = %s\n" %data['binary']
+    s += "binary = os.path.join('%s')\n" %data['binary']
 
     # Check if there was a binary passed in via the command line and error if
     # there are too many arguments
