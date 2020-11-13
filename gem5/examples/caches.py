@@ -62,7 +62,7 @@ class L1Cache(Cache):
 
     def connectBus(self, bus):
         """Connect this cache to a memory-side bus"""
-        self.mem_side = bus.slave
+        self.mem_side = bus.cpu_side_ports
 
     def connectCPU(self, cpu):
         """Connect this cache's port to a CPU-side port
@@ -128,7 +128,7 @@ class L2Cache(Cache):
         self.size = opts.l2_size
 
     def connectCPUSideBus(self, bus):
-        self.cpu_side = bus.master
+        self.cpu_side = bus.mem_side_ports
 
     def connectMemSideBus(self, bus):
-        self.mem_side = bus.slave
+        self.mem_side = bus.cpu_side_ports
