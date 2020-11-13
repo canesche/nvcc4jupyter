@@ -9,7 +9,7 @@ from IPython.core.magic_arguments import argument, magic_arguments, parse_argstr
 from common import helper
 
 compiler = '/content/nvcc4jupyter/verilog/bin/iverilog'
-yosys_run = '/content/nvcc4jupyter/verilog/bin/yosys'
+yosys_run = '/content/nvcc4jupyter/verilog/yosys'
 script_run = '/content/nvcc4jupyter/verilog/script.ys'
 ext = '.v'
 
