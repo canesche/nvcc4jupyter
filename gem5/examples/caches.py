@@ -78,11 +78,9 @@ class L1ICache(L1Cache):
     SimpleOpts.add_option('--l1i_size',
                           help="L1 instruction cache size. Default: %s" % size)
 
-    def __init__(self, opts=None):
+    def __init__(self, size=16, opts=None):
         super(L1ICache, self).__init__(opts)
-        if not opts or not opts.l1i_size:
-            return
-        self.size = opts.l1i_size
+        self.size = str(size)+'kB'
 
     def connectCPU(self, cpu):
         """Connect this cache's port to a CPU icache port"""
@@ -97,11 +95,9 @@ class L1DCache(L1Cache):
     SimpleOpts.add_option('--l1d_size',
                           help="L1 data cache size. Default: %s" % size)
 
-    def __init__(self, opts=None):
+    def __init__(self, size=16, opts=None):
         super(L1DCache, self).__init__(opts)
-        if not opts or not opts.l1d_size:
-            return
-        self.size = opts.l1d_size
+        self.size = str(size)+'kB'
 
     def connectCPU(self, cpu):
         """Connect this cache's port to a CPU dcache port"""
@@ -121,11 +117,11 @@ class L2Cache(Cache):
 
     SimpleOpts.add_option('--l2_size', help="L2 cache size. Default: %s" % size)
 
-    def __init__(self, opts=None):
+    def __init__(self, size=256, assoc=8, latenc=20, opts=None):
         super(L2Cache, self).__init__()
-        if not opts or not opts.l2_size:
-            return
-        self.size = opts.l2_size
+        self.size = str(size) + "kB"
+        self.assoc = assoc
+        self.data_latency = latenc
 
     def connectCPUSideBus(self, bus):
         self.cpu_side = bus.mem_side_ports

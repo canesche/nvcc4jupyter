@@ -50,8 +50,8 @@ def cache_gem5(data):
     s += "system.mem_ranges = [AddrRange('512MB')]\n"
 
     # Create an L1 instruction and data cache
-    s += "system.cpu.icache = L1ICache(opts)\n" 
-    s += "system.cpu.dcache = L1DCache(opts)\n" 
+    s += "system.cpu.icache = L1ICache(size=16,opts=opts)\n"
+    s += "system.cpu.dcache = L1DCache(size=%d,opts=opts)\n" %(data['size_l1']) 
 
     # Connect the instruction and data caches to the CPU
     s += "system.cpu.icache.connectCPU(system.cpu)\n"
@@ -65,7 +65,7 @@ def cache_gem5(data):
     s += "system.cpu.dcache.connectBus(system.l2bus)\n"
 
     # Create an L2 cache and connect it to the l2bus
-    s += "system.l2cache = L2Cache(opts)\n"
+    s += "system.l2cache = L2Cache(size=%d,opts=opts)\n" %(data['size_l1'])
     s += "system.l2cache.connectCPUSideBus(system.l2bus)\n"
 
     # Create a memory bus
