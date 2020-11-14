@@ -131,7 +131,7 @@ class Gem5Plugin(Magics):
         grid[1,3] = create_Dropdown("memory", options=['DDR3_1600','DDR4_2400'], value='DDR3_1600')
 
         opts = []
-        for i in range(1,20):
+        for i in range(0,20):
             opts.append(2**i)
 
         if with_cache:
@@ -141,7 +141,7 @@ class Gem5Plugin(Magics):
             gridCache[0,2] = create_Text("Associative", "warning")
             gridCache[0,3] = create_Text("data_latency", "warning")
             gridCache[1,0] = create_Text("L1Cache", "warning")
-            gridCache[1,1] = create_Dropdown("size_l1", options=opts[0:10], value=16)
+            gridCache[1,1] = create_Dropdown("size_l1", options=opts[:10], value=16)
             gridCache[1,2] = create_Dropdown("assoc_l1", options=opts[:5], value=2)
             gridCache[1,3] = create_Dropdown("latency_l1", options=range(14,28), value=16)
             gridCache[2,0] = create_Text("L2Cache", "warning")
