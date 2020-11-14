@@ -50,7 +50,7 @@ class Gem5Plugin(Magics):
                     arguments = ["sh", "/content/nvcc4jupyter/gem5/statistic.sh", s]
                     output = subprocess.check_output(arguments, stderr=subprocess.STDOUT)
                     output = output.decode('utf8')
-                    helper.print_out(output.replace("\n\n","\n"))
+                    helper.print_out(output.replace("\n\n",""))
 
     def output_gem5(self, data):
         if len(data['stats']) > 0:
@@ -63,7 +63,7 @@ class Gem5Plugin(Magics):
                     arguments = ["sh", "/content/nvcc4jupyter/gem5/statistic.sh", s]
                     output = subprocess.check_output(arguments, stderr=subprocess.STDOUT)
                     output = output.decode('utf8')
-                    helper.print_out(output.replace("\n\n","\n"))
+                    helper.print_out(output.replace("\n\n",""))
 
     def view_scope(self, with_cache=False, binary="", stats=[]):
         bool_with_cache = with_cache
