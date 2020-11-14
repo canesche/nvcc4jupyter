@@ -36,10 +36,8 @@ class Gem5Plugin(Magics):
         helper.print_out(output)
     
     def print_out_gem5(self, out: str):
-        out = out.replace("\n\n","\n").replace("\n","*")
+        out = out.replace("\n\n","\n")
         print(out)
-        for l in out.split('*'):
-            print(l)
 
     def run_gem5(self, file_path, args):
 
