@@ -38,7 +38,6 @@ class Gem5Plugin(Magics):
     def run_gem5(self, file_path, args):
 
         arguments = ["sh", "/content/nvcc4jupyter/gem5/execute.sh", args[0], file_path + ext]
-
         self.execution(arguments)
 
         if len(args) > 1:
@@ -53,7 +52,8 @@ class Gem5Plugin(Magics):
                     output = output.decode('utf8')
                     helper.print_out(output.replace("\n\n","\n"))
 
-    def output_gem5(self,data):
+    def output_gem5(self, data):
+        print(data)
         if len(data['stats']) > 0:
             if 'all' in data['stats']:
                 arguments = ["cat", "/content/m5out/stats.txt"]
@@ -61,6 +61,7 @@ class Gem5Plugin(Magics):
             else:
                 print("---------- Begin Simulation Statistics ----------")
                 for s in data['stats']:
+                    print(s)
                     arguments = ["sh", "/content/nvcc4jupyter/gem5/statistic.sh", s]
                     output = subprocess.check_output(data['stats'], stderr=subprocess.STDOUT)
                     output = output.decode('utf8')
