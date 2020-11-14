@@ -26,14 +26,6 @@ def cache_gem5(data):
     # grab the specific path to the binary
     s += "binary = os.path.join('%s')\n" %data['binary']
 
-    # Check if there was a binary passed in via the command line and error if
-    # there are too many arguments
-    #s += "if len(args) == 1:\n"
-    #s += "    binary = args[0]\n"
-    #s += "elif len(args) > 1:\n"
-    #s += "    SimpleOpts.print_help()\n"
-    #s += "    m5.fatal(\"Expected a binary to execute as positional argument\")\n"
-
     # create the system we are going to simulate
     s += "system = System()\n"
 

@@ -15,6 +15,7 @@ int main(int argc, char const *argv[]) {
       }
   }
   
+  time_req = clock();
   int temp;
   for (int i = 0; i < n; ++i) {
       for (int j = 0; j < n; ++j) {
@@ -25,7 +26,9 @@ int main(int argc, char const *argv[]) {
           c[i][j] = temp;   
       }
   } 
+  time_req = clock() - time_req;
   
   printf("Multiplication matrix %dx%d\n", n, n);
+  printf("Time %.4fs\n", (float)time_req / CLOCKS_PER_SEC);
   return 0;
 }
