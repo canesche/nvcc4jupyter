@@ -1,1 +1,0 @@
-apt install -y scons build-essential m4 scons zlib1g zlib1g-dev libprotobuf-dev protobuf-compiler libprotoc-dev libgoogle-perftools-dev python-dev python libboost-all-dev &> /tmp/trash.txt

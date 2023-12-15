@@ -1,25 +1,19 @@
-## NVCC Plugin for Jupyter notebook
+# NVCC Plugin for Jupyter notebook
 
-### V2 is available
+## Please readme:
 
-V2 brings support of multiple source and header files.
+This project was redirected to the github of the [LESC-UFV](https://github.com/lesc-ufv) research group.
 
-##### Usage
+The link to the project is this: [https://github.com/lesc-ufv/cad4u](CAD4U)
 
-- Load Extension
-> `%load_ext nvcc_plugin`
+To update your Colab script to the new version:
 
-- Mark a cell to be treated as cuda cell
-> `%%cuda --name example.cu --compile false`
->> NOTE: The cell must contain either code or comments to be run successfully. 
->> It accepts 2 arguments. `-n` | `--name`  - which is the name of either CUDA source or Header
->> The name parameter must have extension `.cu` or `.h`
->> Second argument `-c` | `--compile`; default value is `false`. The argument is a flag to specify
->> if the cell will be compiled and run right away or not. It might be usefull if you're playing in
->> the `main` function
-
-- To compile and run all CUDA files you need to run
 ```
-%%cuda_run
-# This line just to bypass an exeption and can contain any text
+!pip install git+https://github.com/lesc-ufv/cad4u.git
+!git clone https://github.com/lesc-ufv/cad4u
+%load_ext plugin
 ```
+
+I'm sorry for the inconvenience.
+
+Michael
